@@ -1,0 +1,182 @@
+const allSystemsUsers = [
+  {
+    username: "Omar Rami",
+    password: "omar123",
+    id: 1,
+    email: "name4ad@gmail.com",
+    role: "owner",
+    phone: "01000000000",
+  },
+  {
+    username: "Ahmed Ali",
+    password: "ahmed123",
+    id: 2,
+    email: "ahmed.ali@example.com",
+    role: "staff",
+    phone: "01100000000",
+  },
+  {
+    username: "Sara Hassan",
+    password: "sara123",
+    id: 3,
+    email: "sara.hassan@example.com",
+    role: "trainer",
+    phone: "01200000000",
+  },
+  {
+    username: "Khalid Moath",
+    password: "khalid123",
+    id: 4,
+    email: "khalid.moath@example.com",
+    role: "trainer",
+    phone: "01230000000",
+  },
+];
+
+const membersData = [
+  {
+    name: "fatima",
+    membershipType: "premium",
+    membershipStartDate: "2023-01-01",
+    membershipEndDate: "2024-01-01",
+    contactNumber: "01000000000",
+    status: "active",
+    trainer: "Sara Hasan",
+  },
+  {
+    name: "ahmed",
+    membershipType: "basic",
+    membershipStartDate: "2023-02-01",
+    membershipEndDate: "2024-02-01",
+    contactNumber: "01100000000",
+    status: "active",
+  },
+  {
+    name: "mohamed",
+    membershipType: "premium",
+    membershipStartDate: "2023-03-01",
+    membershipEndDate: "2024-03-01",
+    contactNumber: "01200000000",
+    status: "active",
+  },
+  {
+    name: "sara",
+    membershipType: "basic",
+    membershipStartDate: "2023-04-01",
+    membershipEndDate: "2024-04-01",
+    contactNumber: "01300000000",
+    status: "active",
+  },
+  {
+    name: "ali",
+    membershipType: "premium",
+    membershipStartDate: "2023-05-01",
+    membershipEndDate: "2024-05-01",
+    contactNumber: "01400000000",
+    status: "active",
+  },
+  {
+    name: "mona",
+    membershipType: "basic",
+    membershipStartDate: "2023-06-01",
+    membershipEndDate: "2024-06-01",
+    contactNumber: "01500000000",
+    status: "active",
+  },
+  {
+    name: "hassan",
+    membershipType: "premium",
+    membershipStartDate: "2023-07-01",
+    membershipEndDate: "2024-07-01",
+    contactNumber: "01600000000",
+    status: "active",
+  },
+  {
+    name: "zaid",
+    membershipType: "basic",
+    membershipStartDate: "2024-07-01",
+    membershipEndDate: "2024-08-01",
+    contactNumber: "01700000000",
+    status: "active",
+  },
+  {
+    name: "farrah",
+    membershipType: "basic",
+    membershipStartDate: "2026-08-12",
+    membershipEndDate: "2026-09-12",
+    contactNumber: "01700000000",
+    status: "expiring soon",
+  },
+];
+
+const classesData = [
+  {
+    name: "Yoga",
+    trainer: "Sara Hassan",
+    startTime: "10:00",
+    endTime: "11:00",
+    day: "Mon, Wed, Fri",
+    status: "available",
+    maxCapacity: 20,
+    enrolledMembers: [
+      {
+        name: "hassan",
+        membershipType: "premium",
+        membershipStartDate: "2023-07-01",
+        membershipEndDate: "2024-07-01",
+        contactNumber: "01600000000",
+        status: "active",
+      },
+    ],
+  },
+  {
+    name: "Zumba",
+    trainer: "Ahmed Ali",
+    startTime: "18:00",
+    endTime: "19:00",
+    day: "Tue, Thu",
+    status: "available",
+    maxCapacity: 15,
+    enrolledMembers: [
+      {
+        name: "mona",
+        membershipType: "basic",
+        membershipStartDate: "2023-06-01",
+        membershipEndDate: "2024-06-01",
+        contactNumber: "01500000000",
+        status: "active",
+      },
+    ],
+  },
+  {
+    name: "Pilates",
+    trainer: "Sara Hassan",
+    startTime: "15:00",
+    endTime: "16:00",
+    day: "Mon, Wed, Fri",
+    status: "available",
+    maxCapacity: 10,
+    enrolledMembers: [
+      {
+        name: "ali",
+        membershipType: "premium",
+        membershipStartDate: "2023-05-01",
+        membershipEndDate: "2024-05-01",
+        contactNumber: "01400000000",
+        status: "active",
+      },
+      {
+        name: "hassan",
+        membershipType: "premium",
+        membershipStartDate: "2023-07-01",
+        membershipEndDate: "2024-07-01",
+        contactNumber: "01600000000",
+        status: "active",
+      },
+    ],
+  },
+];
+/*
+localStorage.setItem("allSystemsUsers", JSON.stringify(allSystemsUsers));
+localStorage.setItem("membersData", JSON.stringify(membersData));
+localStorage.setItem("classesData", JSON.stringify(classesData));*/

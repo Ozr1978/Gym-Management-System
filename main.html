@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Management UI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="login-container" hidden>
+      <h1>Login</h1>
+      <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit" id="submit-button">Login</button>
+      </form>
+    </div>
+
+    <div class="corner-menu" id="corner-menu">
+      <button class="corner-menu-btn" id="menuToggle">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+
+      <div class="corner-menu-dropdown" id="menuDropdown" hidden>
+        <button class="menu-item" id="dashboard">Dashboard</button>
+        <button class="menu-item" id="members">Members</button>
+        <button class="menu-item" id="classes">Classes</button>
+        <button class="menu-item" id="staffManagement">Staff Management</button>
+        <button class="menu-item" id="logout">Logout</button>
+      </div>
+    </div>
+
+    <div class="dashboard-container" id="main-dashboard" hidden>
+      <header class="header">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Overview of gym activity and performance.</p>
+        </div>
+      </header>
+
+      <!-- Stats -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Active Members</div>
+          <div class="stat-value" id="members-number"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Expiring Soon</div>
+          <div class="stat-value stat-warning" id="expiring-number"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's Classes</div>
+          <div class="stat-value" id="classes-number"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's Bookings</div>
+          <div class="stat-value" id="bookings-number"></div>
+        </div>
+      </section>
+
+      <!-- Upcoming Classes -->
+      <section class="panel">
+        <h2 class="panel-title">Upcoming Classes</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Time</th>
+                <th style="text-align: right">Spots</th>
+              </tr>
+            </thead>
+            <tbody id="upcoming-classes">
+              <tr>
+                <td>Boxing</td>
+                <td>18:00</td>
+                <td style="text-align: right">
+                  <span class="badge status-active">12/15</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Cardio</td>
+                <td>19:00</td>
+                <td style="text-align: right">
+                  <span class="badge status-pending">8/10</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Bodybuilding</td>
+                <td>20:00</td>
+                <td style="text-align: right">
+                  <span class="badge status-inactive">FULL</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Recent Activity -->
+      <section class="panel">
+        <h2 class="panel-title">Recent Activity</h2>
+        <ul class="activity-list">
+          <li class="activity-item">
+            <span class="activity-dot"></span>
+            <span><strong>Ahmed</strong> booked Boxing</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-dot"></span>
+            <span><strong>Omar</strong> renewed subscription</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Staff Management Page -->
+    <div class="dashboard-container" id="staffManagementPage">
+      <header class="header">
+        <div>
+          <h1>
+            <svg
+              class="icon"
+              style="color: #818cf8; width: 1.5rem; height: 1.5rem"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+            Staff Management
+          </h1>
+          <p>Manage staff members and their permissions.</p>
+        </div>
+        <button class="btn-primary">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+            ></path>
+          </svg>
+          Add New User
+        </button>
+      </header>
+
+      <section class="toolbar">
+        <div class="search-box">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search by name..." />
+        </div>
+      </section>
+
+      <form id="addStaffForm" class="modal-form" hidden>
+        <label for="staffName">Name:</label>
+        <input type="text" id="staffName" name="staffName" required />
+        <label for="staffRole">Role:</label>
+        <select id="staffRole" name="staffRole" required>
+          <option value="coach">Coach</option>
+          <option value="staff">Staff</option>
+        </select>
+        <label for="staffEmail">Email:</label>
+        <input type="text" id="staffEmail" name="staffEmail" required />
+        <label for="staffNumber">Staff Phone Number:</label>
+        <input type="text" id="staffNumber" name="staffNumber" required />
+        <label for="staffPassword">Password:</label>
+        <input type="text" id="staffPassword" name="staffPassword" required />
+        <button type="submit" class="btn-primary" id="sendStaffDataBtn">
+          Add Member
+        </button>
+        <button type="button" class="btn-secondary" id="cancelAddStaffBtn">
+          Cancel
+        </button>
+      </form>
+
+      <main class="table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Staff Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Password</th>
+                <th>id</th>
+                <th style="text-align: right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <tr>
+                <td class="user-name">Ahmed Khalil</td>
+                <td><span class="badge role-badge">Coach</span></td>
+                <td>Siwar4Omar@gmail.com</td>
+                <td>079xxxxxxx</td>
+                <td>omar123</td>
+                <td>1</td>
+                <td class="actions-cell">
+                  <button class="action-btn" title="Edit">
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <button class="delete-btn" title="Delete">
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <!-- Members Page -->
+    <div class="dashboard-container" id="membersPage" hidden>
+      <header class="header">
+        <div>
+          <h1>Members</h1>
+          <p>View and manage all gym members and their subscriptions.</p>
+        </div>
+        <button class="btn-primary" id="addMemberBtn">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+            ></path>
+          </svg>
+          Add New Member
+        </button>
+      </header>
+
+      <form id="addMemberForm" class="modal-form" hidden>
+        <label for="memberName">Name:</label>
+        <input type="text" id="memberName" name="memberName" required />
+        <label for="membershipType">Membership Type:</label>
+        <select id="membershipType" name="membershipType" required>
+          <option value="basic">Basic</option>
+          <option value="premium">Premium</option>
+          <option value="Standard">Standard</option>
+        </select>
+        <label for="membershipStartDate">Membership Start Date:</label>
+        <input
+          type="date"
+          id="membershipStartDate"
+          name="membershipStartDate"
+          required
+        />
+        <label for="membershipEndDate">Membership End Date:</label>
+        <input
+          type="date"
+          id="membershipEndDate"
+          name="membershipEndDate"
+          required
+        />
+        <label for="contactNumber">Contact Number:</label>
+        <input type="text" id="contactNumber" name="contactNumber" required />
+        <label for="trainer">Trainer:</label>
+        <select id="trainer" name="trainer" required>
+          <option value="No Trainer">No Trainer</option>
+        </select>
+        <button type="submit" class="btn-primary" id="sendFormDataBtn">
+          Add Member
+        </button>
+        <button type="button" class="btn-secondary" id="cancelAddMemberBtn">
+          Cancel
+        </button>
+      </form>
+
+      <div id="edit-container" hidden>
+        <label for="editMemberName">Name:</label>
+        <input type="text" id="editMemberName" name="editMemberName" readonly />
+        <label for="editMembershipType">Membership Type:</label>
+        <select id="editMembershipType" name="editMembershipType">
+          <option value="basic">Basic</option>
+          <option value="premium">Premium</option>
+          <option value="standard">Standard</option>
+        </select>
+        <label for="editMembershipStartDate">Membership Start Date:</label>
+        <input
+          type="date"
+          id="editMembershipStartDate"
+          name="editMembershipStartDate"
+        />
+        <label for="editMembershipEndDate">Membership End Date:</label>
+        <input
+          type="date"
+          id="editMembershipEndDate"
+          name="editMembershipEndDate"
+        />
+        <label for="editContactNumber">Contact Number:</label>
+        <input type="text" id="editContactNumber" name="editContactNumber" />
+        <label for="editTrainer">Trainer:</label>
+        <select id="editTrainer" name="editTrainer">
+          <option value="No Trainer">No Trainer</option>
+        </select>
+        <button type="button" class="btn-primary" id="saveEditMemberBtn">
+          Save Changes
+        </button>
+        <button type="button" class="btn-secondary" id="cancelEditMemberBtn">
+          Cancel
+        </button>
+      </div>
+
+      <section class="toolbar">
+        <div class="search-box">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            id="memberSearchInput"
+            placeholder="Search by name..."
+          />
+        </div>
+      </section>
+
+      <main class="table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Subscription</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Phone</th>
+                <th>trainer</th>
+                <th style="text-align: right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="membersTableBody">
+              <!---
+          <tr>
+            <td class="user-name">Ahmed Khalil</td>
+            <td><span class="badge role-badge">Boxing</span></td>
+            <td>2026-05-01</td>
+            <td>2026-09-01</td>
+            <td><span class="badge status-active">Active</span></td>
+            <td>079xxxxxxx</td>
+            <td>No Trainer</td>
+            <td class="actions-cell">
+              <button class="action-btn" title="Edit"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
+              <button class="action-btn delete" title="Delete"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="user-name">Sara Nabil</td>
+            <td><span class="badge role-badge">Cardio</span></td>
+            <td>2026-06-10</td>
+            <td>2026-09-12</td>
+            <td><span class="badge status-expiring">Expiring Soon</span></td>
+            <td>078xxxxxxx</td>
+            <td>No Trainer</td>
+            <td class="actions-cell">
+              <button class="action-btn" title="Edit"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
+              <button class="action-btn delete" title="Delete"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="user-name">Michael Brown</td>
+            <td><span class="badge role-badge">Bodybuilding</span></td>
+            <td>2026-01-15</td>
+            <td>2026-07-15</td>
+            <td><span class="badge status-inactive">Expired</span></td>
+            <td>077xxxxxxx</td>
+            <td>No Trainer</td>
+            <td class="actions-cell">
+              <button class="action-btn" title="Edit"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
+              <button class="action-btn delete" title="Delete"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+            </td>
+          </tr>
+        -->
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <!-- Classes & Bookings Page -->
+    <div class="dashboard-container" id="classesPage" hidden>
+      <header class="header">
+        <div>
+          <h1>Classes & Bookings</h1>
+          <p>Manage class schedules, coaches, and capacity.</p>
+        </div>
+        <button class="btn-primary" id="addClassBtn">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+            ></path>
+          </svg>
+          Add New Class
+        </button>
+      </header>
+
+      <section class="toolbar">
+        <div class="search-box">
+          <svg
+            class="icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            id="classSearchInput"
+            placeholder="Search by class or coach..."
+          />
+        </div>
+      </section>
+
+      <main class="table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Time</th>
+                <th>Coach</th>
+                <th>Booked</th>
+                <th>Max</th>
+                <th>Status</th>
+                <th style="text-align: right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="classesTableBody">
+              <tr data-class-id="1">
+                <td class="user-name">Boxing</td>
+                <td class="class-time">18:00</td>
+                <td>Coach Karim</td>
+                <td class="class-booked">12</td>
+                <td class="class-max">15</td>
+                <td><span class="badge status-active">Open</span></td>
+                <td class="actions-cell">
+                  <button
+                    class="action-btn edit-class-btn"
+                    title="Manage Class"
+                  >
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr data-class-id="2">
+                <td class="user-name">Cardio</td>
+                <td class="class-time">19:00</td>
+                <td>Coach Lina</td>
+                <td class="class-booked">8</td>
+                <td class="class-max">10</td>
+                <td><span class="badge status-expiring">Filling Up</span></td>
+                <td class="actions-cell">
+                  <button
+                    class="action-btn edit-class-btn"
+                    title="Manage Class"
+                  >
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr data-class-id="3">
+                <td class="user-name">Bodybuilding</td>
+                <td class="class-time">20:00</td>
+                <td>Coach Yousef</td>
+                <td class="class-booked">15</td>
+                <td class="class-max">15</td>
+                <td><span class="badge status-inactive">Full</span></td>
+                <td class="actions-cell">
+                  <button
+                    class="action-btn edit-class-btn"
+                    title="Manage Class"
+                  >
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <!-- Edit Class Modal -->
+    <div class="modal-overlay" id="editClassOverlay" hidden>
+      <div class="modal-card">
+        <h2 class="panel-title">Manage Class</h2>
+
+        <label for="editTime">Class Time</label>
+        <input type="time" id="editTime" />
+
+        <label for="editMax">Max Members Allowed</label>
+        <input type="number" id="editMax" min="1" />
+
+        <div class="modal-actions">
+          <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
+          <button class="btn-primary" id="saveEditBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!---
+  <tr>
+              <td>
+                <div class="user-cell">
+                  
+                  <div>
+                    <div class="user-name">Michael Brown</div>
+                    <div class="user-email">m.brown@example.com</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge role-badge">Viewer</span>
+              </td>
+              <td>
+                <span class="badge status-inactive">Inactive</span>
+              </td>
+              <td class="actions-cell">
+                <button class="action-btn" title="Edit"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
+                <button class="action-btn delete" title="Delete"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+              </td>
+            </tr>
+          -->
+    <script src="main.js"></script>
+    <script type="module" src="login.js"></script>
+    <script src="trainer.js"></script>
+    <script src="staff.js"></script>
+    <script src="owner.js"></script>
+    <script src="information.js"></script>
+    <script src="cornerMenu.js"></script>
+    <script src="members.js"></script>
+  </body>
+</html>
