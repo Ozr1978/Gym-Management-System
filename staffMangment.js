@@ -1,4 +1,4 @@
-const membersTableBody = document.getElementById("membersTableBody");
+const staffTableBody = document.getElementById("staffTableBody");
 const classes = JSON.parse(localStorage.getItem("classesData")) || [];
 const addBtn = document.getElementById("addMemberBtn");
 const addMemberForm = document.getElementById("addMemberForm");
@@ -8,7 +8,7 @@ const memberSearchInput = document.getElementById("memberSearchInput");
 const editContainer = document.getElementById("edit-container");
 const cancelEditMemberBtn = document.getElementById("cancelEditMemberBtn");
 const saveEditMemberBtn = document.getElementById("saveEditMemberBtn");
-/*
+
 // hidden form data
 const fullName = document.getElementById("memberName");
 const membershipType = document.getElementById("membershipType");
@@ -44,12 +44,12 @@ function memberString(member) {
 }
 
 function displayMembers() {
-  for (let user of members) {
+  for (let user of classes) {
     let member = document.createElement("tr");
     member.setAttribute("id", user.name);
     member.innerHTML = memberString(user);
 
-    membersTableBody.appendChild(member);
+    staffTableBody.appendChild(member);
   }
 }
 
@@ -102,22 +102,22 @@ function addMember(
   member.setAttribute("id", name);
   member.innerHTML = memberString(user);
 
-  membersTableBody.appendChild(member);
+  staffTableBody.appendChild(member);
 }
 
-membersTableBody.addEventListener("click", (e) => {
+staffTableBody.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".action-btn");
   if (deleteBtn) {
     const row = deleteBtn.closest("tr");
-    const index = Array.from(membersTableBody.children).indexOf(row);
+    const index = Array.from(staffTableBody.children).indexOf(row);
 
     members.splice(index, 1);
     localStorage.setItem("membersData", JSON.stringify(members));
     row.remove();
   } else if (editBtn) {
     const row = editBtn.closest("tr");
-    const index = Array.from(membersTableBody.children).indexOf(row);
+    const index = Array.from(staffTableBody.children).indexOf(row);
     const member = members[index];
     editContainer.removeAttribute("hidden");
     editMemberName.value = member.name;
@@ -176,14 +176,14 @@ addMemberForm.addEventListener("submit", (event) => {
 memberSearchInput.addEventListener("input", () => {
   const searchTerm = memberSearchInput.value.toLowerCase();
 
-  for (let i = 0; i < membersTableBody.children.length; i++) {
+  for (let i = 0; i < staffTableBody.children.length; i++) {
     if (
-      !membersTableBody.children[i].children[0].textContent
+      !staffTableBody.children[i].children[0].textContent
         .toLowerCase()
         .includes(searchTerm)
     )
-      membersTableBody.children[i].style.display = "none";
-    else membersTableBody.children[i].style.display = "";
+      staffTableBody.children[i].style.display = "none";
+    else staffTableBody.children[i].style.display = "";
   }
 });
 
@@ -198,4 +198,4 @@ saveEditMemberBtn.addEventListener("click", () => {
   editContainer.setAttribute("hidden", true);
 });
 
-displayMembers();*/
+displayMembers();
