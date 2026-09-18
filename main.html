@@ -206,6 +206,29 @@
         </button>
       </form>
 
+      <div id="editStaff-container" hidden>
+        <label for="editStaffName">Name:</label>
+        <input type="text" id="editStaffName" name="editStaffName" readonly />
+        <label for="editStaffRole">Staff Role:</label>
+        <select id="editStaffRole" name="editStaffRole">
+          <option value="coach">Coach</option>
+          <option value="staff">Staff</option>
+        </select>
+        <label for="editStaffEmail">NEW EMAIL:</label>
+        <input type="date" id="editStaffEmail" name="editStaffEmail" />
+        <label for="editPhoneNumber">Membership End Date:</label>
+        <input type="text" id="editPhoneNumber" name="editPhoneNumber" />
+        <label for="editPassword">Contact Number:</label>
+        <input type="text" id="editPassword" name="editPassword" />
+
+        <button type="button" class="btn-primary" id="saveEditStaffBtn">
+          Save Changes
+        </button>
+        <button type="button" class="btn-secondary" id="cancelEditStaffBtn">
+          Cancel
+        </button>
+      </div>
+
       <main class="table-card">
         <div class="table-wrapper">
           <table>
