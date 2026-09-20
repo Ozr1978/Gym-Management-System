@@ -3,16 +3,17 @@ const allSystemsUsers = [
     username: "Omar Rami",
     password: "omar123",
     id: 1,
-    email: "name4ad@gmail.com",
-    role: "owner",
+    email: "Omar4Siwar@gmail.com",
+    role: "Owner",
     phone: "01000000000",
   },
+
   {
     username: "Ahmed Ali",
     password: "ahmed123",
     id: 2,
     email: "ahmed.ali@example.com",
-    role: "staff",
+    role: "Staff",
     phone: "01100000000",
   },
   {
@@ -20,7 +21,7 @@ const allSystemsUsers = [
     password: "sara123",
     id: 3,
     email: "sara.hassan@example.com",
-    role: "trainer",
+    role: "Coach",
     phone: "01200000000",
   },
   {
@@ -28,8 +29,16 @@ const allSystemsUsers = [
     password: "khalid123",
     id: 4,
     email: "khalid.moath@example.com",
-    role: "trainer",
+    role: "Coach",
     phone: "01230000000",
+  },
+  {
+    username: "Siwar Azzam",
+    password: "siwar123",
+    id: 5,
+    email: "Siwar4Omar@gmail.com",
+    role: "Staff",
+    phone: "01010000000",
   },
 ];
 
@@ -179,4 +188,5 @@ const classesData = [
 /*
 localStorage.setItem("allSystemsUsers", JSON.stringify(allSystemsUsers));
 localStorage.setItem("membersData", JSON.stringify(membersData));
-localStorage.setItem("classesData", JSON.stringify(classesData));*/
+localStorage.setItem("classesData", JSON.stringify(classesData));
+*/
