@@ -3,7 +3,6 @@ const members = JSON.parse(localStorage.getItem("membersData")) || [];
 const addBtn = document.getElementById("addMemberBtn");
 const addMemberForm = document.getElementById("addMemberForm");
 const cancelAddMemberBtn = document.getElementById("cancelAddMemberBtn");
-const submitBtn = document.getElementById("sendFormDataBtn");
 const memberSearchInput = document.getElementById("memberSearchInput");
 const editContainer = document.getElementById("edit-container");
 const cancelEditMemberBtn = document.getElementById("cancelEditMemberBtn");
