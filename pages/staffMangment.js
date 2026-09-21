@@ -21,6 +21,19 @@ const editStaffEmail = document.getElementById("editStaffEmail");
 const editPhoneNumber = document.getElementById("editPhoneNumber");
 const editPassword = document.getElementById("editPassword");
 
+class STAFF {
+  static count = Number(localStorage.getItem("staffCount")) || 6;
+  constructor(username, email, role, phone, password) {
+    this.username = username;
+    this.role = role;
+    this.email = email;
+    this.phone = phone;
+    this.password = password;
+    this.id = STAFF.count++;
+    localStorage.setItem("staffCount", STAFF.count);
+  }
+}
+
 function staffString(staff) {
   return `
             <td class="user-name">${staff.username}</td>
@@ -102,14 +115,13 @@ function saveEditedStaff(staff) {
 }
 
 function addMember(username, role, email, phone, password) {
-  const user = {
+  const user = new STAFF(
     username,
     email,
-    role: role.charAt(0).toUpperCase() + role.slice(1),
+    role.charAt(0).toUpperCase() + role.slice(1),
     phone,
     password,
-    id: staffMember.length + 1,
-  };
+  );
   staffMember.push(user);
   localStorage.setItem("allSystemsUsers", JSON.stringify(staffMember));
 
@@ -133,6 +145,7 @@ staffTable.addEventListener("click", (e) => {
     staffMember.splice(index, 1);
     localStorage.setItem("allSystemsUsers", JSON.stringify(staffMember));
     row.remove();
+    for (let i = index; i < staffMember.length; i++) {}
   } else if (editBtn) {
     const row = editBtn.closest("tr");
     const index = Array.from(staffTable.children).indexOf(row);
