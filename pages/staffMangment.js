@@ -114,7 +114,7 @@ function saveEditedStaff(staff) {
   document.getElementById(staff.username).innerHTML = staffString(editedMember);
 }
 
-function addMember(username, role, email, phone, password) {
+function addStaff(username, role, email, phone, password) {
   const user = new STAFF(
     username,
     email,
@@ -175,7 +175,7 @@ cancelAddStaffBtn.addEventListener("click", () => {
 addStaffForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  addMember(
+  addStaff(
     staffFullName.value,
     staffRole.value,
     staffEmail.value,
