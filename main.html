@@ -125,7 +125,7 @@
     </div>
 
     <!-- Staff Management Page -->
-    <div class="dashboard-container" id="staffManagementPage">
+    <div class="dashboard-container" id="staffManagementPage" hidden>
       <header class="header">
         <div>
           <h1>
@@ -396,7 +396,7 @@
     </div>
 
     <!-- Classes & Bookings Page -->
-    <div class="dashboard-container" id="classesPage" hidden>
+    <div class="dashboard-container" id="classesPage">
       <header class="header">
         <div>
           <h1>Classes & Bookings</h1>
@@ -442,6 +442,64 @@
           />
         </div>
       </section>
+
+      <form id="addClassForm" class="modal-form" hidden>
+        <label for="className">Class Name:</label>
+        <input type="text" id="className" name="className" required />
+        <label for="classTime">Class Time:</label>
+        <input
+          type="number"
+          id="classTime"
+          name="classTime"
+          min="0"
+          max="23"
+          required
+        />
+        <label for="classCoach">Class Coach:</label>
+        <input type="text" id="classCoach" name="classCoach" required />
+        <label for="maxNumberOfMembers">Max Number Of Members:</label>
+        <input
+          type="number"
+          id="maxNumberOfMembers"
+          name="maxNumberOfMembers"
+          min="1"
+          max="20"
+          required
+        />
+        <button type="submit" class="btn-primary">Add Member</button>
+        <button type="button" class="btn-secondary" id="cancelAddMemberBtn">
+          Cancel
+        </button>
+      </form>
+
+      <div id="editClass-container" class="modal-form" hidden>
+        <label for="editClassName">Edit Class Name:</label>
+        <input type="text" id="editClassName name=" editClassName required />
+        <label for="editClassTime">Edit Class Time:</label>
+        <input
+          type="number"
+          id="editClassTime"
+          name="editClassTime"
+          min="0"
+          max="23"
+          required
+        />
+        <label for="editClassCoach">Edit Class Coach:</label>
+        <input type="text" id="editClassCoach" name="editClassCoach" required />
+        <label for="editMaxNumberOfMembers">Edit Max Number Of Members:</label>
+        <input
+          type="number"
+          id="editMaxNumberOfMembers"
+          name="editMaxNumberOfMembers"
+          min="1"
+          max="20"
+          required
+        />
+        <button type="submit" class="btn-primary">Edit Class</button>
+        <button type="button" class="btn-secondary" id="cancelAddClassBtn">
+          Cancel
+        </button>
+      </div>
 
       <main class="table-card">
         <div class="table-wrapper">
