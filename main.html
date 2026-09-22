@@ -466,8 +466,10 @@
           max="20"
           required
         />
-        <button type="submit" class="btn-primary">Add Member</button>
-        <button type="button" class="btn-secondary" id="cancelAddMemberBtn">
+        <button type="submit" class="btn-primary" id="saveEditClassBtn">
+          Add Class
+        </button>
+        <button type="button" class="btn-secondary" id="cancelAddClasseBtn">
           Cancel
         </button>
       </form>
@@ -496,7 +498,7 @@
           required
         />
         <button type="submit" class="btn-primary">Edit Class</button>
-        <button type="button" class="btn-secondary" id="cancelAddClassBtn">
+        <button type="button" class="btn-secondary" id="cancelEditClassBtn">
           Cancel
         </button>
       </div>
@@ -539,6 +541,21 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <button class="delete-btn" title="Delete">
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                       ></path>
                     </svg>
                   </button>
@@ -606,24 +623,6 @@
           </table>
         </div>
       </main>
-    </div>
-
-    <!-- Edit Class Modal -->
-    <div class="modal-overlay" id="editClassOverlay" hidden>
-      <div class="modal-card">
-        <h2 class="panel-title">Manage Class</h2>
-
-        <label for="editTime">Class Time</label>
-        <input type="time" id="editTime" />
-
-        <label for="editMax">Max Members Allowed</label>
-        <input type="number" id="editMax" min="1" />
-
-        <div class="modal-actions">
-          <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
-          <button class="btn-primary" id="saveEditBtn">Save Changes</button>
-        </div>
-      </div>
     </div>
 
     <script src="pages/main.js"></script>

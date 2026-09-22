@@ -1,49 +1,40 @@
-const staffTable = document.getElementById("staffTableBody");
-const staffMember = JSON.parse(localStorage.getItem("allSystemsUsers")) || [];
-const addStaffBtn = document.getElementById("addStaffBtn");
-const addStaffForm = document.getElementById("addStaffForm");
-const cancelAddStaffBtn = document.getElementById("cancelAddStaffBtn");
-const searchInput = document.getElementById("searchInput");
-const editStaffContainer = document.getElementById("editStaff-container");
-const cancelEditStaffBtn = document.getElementById("cancelEditStaffBtn");
-const saveEditStaffBtn = document.getElementById("saveEditStaffBtn");
+const classesTableBody = document.getElementById("classesTableBody");
+const classesData = JSON.parse(localStorage.getItem("classesData")) || [];
+const addClassBtn = document.getElementById("addMemberBtn");
+const addClassForm = document.getElementById("addClassForm");
+const cancelAddClasseBtn = document.getElementById("cancelAddClasseBtn");
+const classSearchInput = document.getElementById("classSearchInput");
+const editClassContainer = document.getElementById("editClass-container");
+const cancelEditClassBtn = document.getElementById("cancelEditClassBtn");
+const saveEditClassBtn = document.getElementById("saveEditClassBtn");
 
 // hidden form data
-const staffFullName = document.getElementById("staffName");
-const staffRole = document.getElementById("staffRole");
-const staffEmail = document.getElementById("staffEmail");
-const staffNumber = document.getElementById("staffNumber");
-const staffPassword = document.getElementById("staffPassword");
+const className = document.getElementById("className");
+const classTime = document.getElementById("classTime");
+const classCoach = document.getElementById("classCoach");
+const maxNumberOfMembers = document.getElementById("maxNumberOfMembers");
+
 // hidden edit form data
-const editStaffName = document.getElementById("editStaffName");
-const editStaffRole = document.getElementById("editStaffRole");
-const editStaffEmail = document.getElementById("editStaffEmail");
-const editPhoneNumber = document.getElementById("editPhoneNumber");
-const editPassword = document.getElementById("editPassword");
+const editClassName = document.getElementById("editClassName");
+const editClassTime = document.getElementById("editClassTime");
+const editClassCoach = document.getElementById("editClassCoach");
+const editMaxNumberOfMembers = document.getElementById(
+  "editMaxNumberOfMembers",
+);
 
-class STAFF {
-  static count = Number(localStorage.getItem("staffCount")) || 6;
-  constructor(username, email, role, phone, password) {
-    this.username = username;
-    this.role = role;
-    this.email = email;
-    this.phone = phone;
-    this.password = password;
-    this.id = STAFF.count++;
-    localStorage.setItem("staffCount", STAFF.count);
-  }
-}
-
-function staffString(staff) {
+function classString(classObj) {
   return `
-            <td class="user-name">${staff.username}</td>
-                <td><span class="badge role-badge">${staff.role}</span></td>
-                <td>${staff.email}</td>
-                <td>${staff.phone}</td>
-                <td>${staff.password}</td>
-                <td>${staff.id}</td>
+            <td class="user-name">${classObj.name}</td>
+                <td class="class-time">${classObj.startTime}</td>
+                <td>Coach ${classObj.coach}</td>
+                <td class="class-booked">${classObj.enrolledMembers.length}</td>
+                <td class="class-max">${classObj.maxCapacity}</td>
+                <td><span class="${classObj.enrolledMembers < maxCapacity ? "badge status-active" : "badge status-inactive"}">Open</span></td>
                 <td class="actions-cell">
-                  <button class="action-btn" title="Edit">
+                  <button
+                    class="action-btn edit-class-btn"
+                    title="Manage Class"
+                  >
                     <svg
                       class="icon"
                       fill="none"
@@ -77,143 +68,159 @@ function staffString(staff) {
           `;
 }
 
-function displayStaff() {
-  for (let staff of staffMember) {
+function displayMembers() {
+  for (let user of members) {
     let member = document.createElement("tr");
-    member.setAttribute("id", staff.username);
-    member.innerHTML = staffString(staff);
+    member.setAttribute("id", user.name);
+    member.innerHTML = memberString(user);
 
-    staffTable.appendChild(member);
+    classesTableBody.appendChild(member);
   }
 }
 
-function saveEditedStaff(staff) {
+function saveEditedMember(member) {
   const editedMember = {
-    username: editStaffName.value,
-    role:
-      staff.role !== "Owner"
-        ? editStaffRole.value.charAt(0).toUpperCase() +
-          editStaffRole.value.slice(1)
-        : "Owner",
-    email: editStaffEmail.value,
-    phone: editPhoneNumber.value,
-    password: editPassword.value,
-    id: staff.id,
+    name: editClassName.value,
+    membershipType: editClassTime.value,
+    membershipStartDate: editClassCoach.value,
+    membershipEndDate: editMaxNumberOfMembers.value,
+    contactNumber: editContactNumber.value,
+    trainer: editTrainer.value,
+    status: member?.status,
   };
   let index;
-  staffMember.some((user) => {
-    if (staff.username === user.username) {
-      index = staffMember.indexOf(user);
+  members.some((user) => {
+    if (member.name === user.name) {
+      index = members.indexOf(user);
       return true;
     }
   });
-  staffMember[index] = editedMember;
-  localStorage.setItem("allSystemsUsers", JSON.stringify(staffMember));
+  members[index] = editedMember;
+  localStorage.setItem("membersData", JSON.stringify(members));
 
-  editStaffContainer.setAttribute("hidden", true);
-  document.getElementById(staff.username).innerHTML = staffString(editedMember);
+  editClassContainer.setAttribute("hidden", true);
+  document.getElementById(member.name).innerHTML = memberString(editedMember);
 }
 
-function addStaff(username, role, email, phone, password) {
-  const user = new STAFF(
-    username,
-    email,
-    role.charAt(0).toUpperCase() + role.slice(1),
-    phone,
-    password,
-  );
-  staffMember.push(user);
-  localStorage.setItem("allSystemsUsers", JSON.stringify(staffMember));
+function addMember(
+  name,
+  membershipType,
+  membershipStartDate,
+  membershipEndDate,
+  contactNumber,
+  status,
+  trainer,
+) {
+  const user = {
+    name,
+    membershipType,
+    membershipStartDate,
+    membershipEndDate,
+    contactNumber,
+    status,
+    trainer,
+  };
+  members.push(user);
+  localStorage.setItem("membersData", JSON.stringify(members));
 
   let member = document.createElement("tr");
-  member.setAttribute("id", username);
-  member.innerHTML = staffString(user);
+  member.setAttribute("id", name);
+  member.innerHTML = memberString(user);
 
-  staffTable.appendChild(member);
+  classesTableBody.appendChild(member);
 }
-staffTable.addEventListener("click", (e) => {
+
+classesTableBody.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".action-btn");
   if (deleteBtn) {
     const row = deleteBtn.closest("tr");
-    const index = Array.from(staffTable.children).indexOf(row);
+    const index = Array.from(classesTableBody.children).indexOf(row);
 
-    if (staffMember[index].role === "Owner") {
-      alert("You can't delete the owner");
-      return;
-    }
-    staffMember.splice(index, 1);
-    localStorage.setItem("allSystemsUsers", JSON.stringify(staffMember));
+    members.splice(index, 1);
+    localStorage.setItem("membersData", JSON.stringify(members));
     row.remove();
-    for (let i = index; i < staffMember.length; i++) {}
   } else if (editBtn) {
     const row = editBtn.closest("tr");
-    const index = Array.from(staffTable.children).indexOf(row);
-    const member = staffMember[index];
-    editStaffContainer.removeAttribute("hidden");
-    editStaffName.value = member.username;
-    editStaffRole.value = member.role.toLowerCase();
-    editStaffEmail.value = member.email;
-    editPhoneNumber.value = member.phone;
-    editPassword.value = member.password;
+    const index = Array.from(classesTableBody.children).indexOf(row);
+    const member = members[index];
+    editClassContainer.removeAttribute("hidden");
+    editClassName.value = member.name;
+    editClassTime.value = member.membershipType;
+    editClassCoach.value = member.membershipStartDate;
+    editMaxNumberOfMembers.value = member.membershipEndDate;
+    editContactNumber.value = member.contactNumber;
+    editTrainer.value = member.trainer ? member.trainer : "No Trainer";
   }
 });
 
-addStaffBtn.addEventListener("click", () => {
-  addStaffForm.removeAttribute("hidden");
+addBtn.addEventListener("click", () => {
+  addClassForm.removeAttribute("hidden");
 });
 
-cancelAddStaffBtn.addEventListener("click", () => {
-  addStaffForm.setAttribute("hidden", true);
-  staffFullName.value = "";
-  staffRole.value = "Coach";
-  staffEmail.value = "";
-  staffNumber.value = "";
-  staffPassword.value = "";
+cancelAddClasseBtn.addEventListener("click", () => {
+  addClassForm.setAttribute("hidden", true);
+  className.value = "";
+  membershipType.value = "basic";
+  membershipStartDate.value = "";
+  membershipEndDate.value = "";
+  contactNumber.value = "";
+  trainer.value = "No Trainer";
 });
 
-addStaffForm.addEventListener("submit", (event) => {
+addClassForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  addStaff(
-    staffFullName.value,
-    staffRole.value,
-    staffEmail.value,
-    staffNumber.value,
-    staffPassword.value,
+  const startDate = new Date(membershipStartDate.value);
+  const endDate = new Date(membershipEndDate.value);
+
+  if (endDate - startDate <= 0) {
+    alert("Enter A Valid date length");
+    return;
+  }
+
+  addMember(
+    className.value,
+    membershipType.value,
+    membershipStartDate.value,
+    membershipEndDate.value,
+    contactNumber.value,
+    "active",
+    trainer.value,
   );
 
-  addStaffForm.setAttribute("hidden", true);
-  staffFullName.value = "";
-  staffRole.value = "Coach";
-  staffEmail.value = "";
-  staffNumber.value = "";
-  staffPassword.value = "";
+  addClassForm.setAttribute("hidden", true);
+  className.value = "";
+  membershipType.value = "basic";
+  membershipStartDate.value = "";
+  membershipEndDate.value = "";
+  contactNumber.value = "";
+  trainer.value = "No Trainer";
 });
 
-searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.toLowerCase();
+classSearchInput.addEventListener("input", () => {
+  const searchTerm = classSearchInput.value.toLowerCase();
 
-  for (let i = 0; i < staffTable.children.length; i++) {
+  for (let i = 0; i < classesTableBody.children.length; i++) {
     if (
-      !staffTable.children[i].children[0].textContent
+      !classesTableBody.children[i].children[0].textContent
         .toLowerCase()
         .includes(searchTerm)
     )
-      staffTable.children[i].style.display = "none";
-    else staffTable.children[i].style.display = "";
+      classesTableBody.children[i].style.display = "none";
+    else classesTableBody.children[i].style.display = "";
   }
 });
 
-cancelEditStaffBtn.addEventListener("click", () => {
-  editStaffContainer.setAttribute("hidden", true);
+cancelEditClassBtn.addEventListener("click", () => {
+  editClassContainer.setAttribute("hidden", true);
 });
 
-saveEditStaffBtn.addEventListener("click", () => {
-  const row = document.getElementById(editStaffName.value);
-  const member = staffMember.find((user) => user.username === row.id);
-  saveEditedStaff(member);
-  editStaffContainer.setAttribute("hidden", true);
+saveEditClassBtn.addEventListener("click", () => {
+  const row = document.getElementById(editClassName.value);
+  const member = members.find((user) => user.name === row.id);
+  saveEditedMember(member);
+  editClassContainer.setAttribute("hidden", true);
 });
 
-displayStaff();
+displayMembers();

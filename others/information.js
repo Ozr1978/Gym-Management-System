@@ -50,7 +50,7 @@ const membersData = [
     membershipEndDate: "2024-01-01",
     contactNumber: "01000000000",
     status: "active",
-    trainer: "Sara Hasan",
+    coach: "Sara Hasan",
   },
   {
     name: "ahmed",
@@ -121,7 +121,7 @@ const membersData = [
 const classesData = [
   {
     name: "Yoga",
-    trainer: "Sara Hassan",
+    coach: "Sara Hassan",
     startTime: "10:00",
     endTime: "11:00",
     day: "Mon, Wed, Fri",
@@ -140,7 +140,7 @@ const classesData = [
   },
   {
     name: "Zumba",
-    trainer: "Ahmed Ali",
+    coach: "Ahmed Ali",
     startTime: "18:00",
     endTime: "19:00",
     day: "Tue, Thu",
@@ -159,7 +159,7 @@ const classesData = [
   },
   {
     name: "Pilates",
-    trainer: "Sara Hassan",
+    coach: "Sara Hassan",
     startTime: "15:00",
     endTime: "16:00",
     day: "Mon, Wed, Fri",
