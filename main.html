@@ -402,7 +402,7 @@
           <h1>Classes & Bookings</h1>
           <p>Manage class schedules, coaches, and capacity.</p>
         </div>
-        <button class="btn-primary" id="addClassBtn">
+        <button class="btn-primary" id="add-class-btn">
           <svg
             class="icon"
             fill="none"
@@ -446,17 +446,66 @@
       <form id="addClassForm" class="modal-form" hidden>
         <label for="className">Class Name:</label>
         <input type="text" id="className" name="className" required />
-        <label for="classTime">Class Time:</label>
+        <label for="classCoach">Class Coach:</label>
+        <input type="text" id="classCoach" name="classCoach" required />
+        <label for="classStartTime">Class Start Time:</label>
         <input
           type="number"
-          id="classTime"
-          name="classTime"
+          id="classStartTime"
+          name="classStartTime"
           min="0"
           max="23"
           required
         />
-        <label for="classCoach">Class Coach:</label>
-        <input type="text" id="classCoach" name="classCoach" required />
+        <label for="classEndTime">Class End Time:</label>
+        <input
+          type="number"
+          id="classEndTime"
+          name="classEndTime"
+          min="0"
+          max="23"
+          required
+        />
+        <fieldset class="days">
+          <legend>Select Days</legend>
+
+          <label
+            ><input type="checkbox" name="days" value="sun" /><span
+              >Sun</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="mon" /><span
+              >Mon</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="tue" /><span
+              >Tue</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="wed" /><span
+              >Wed</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="thu" /><span
+              >Thu</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="fri" /><span
+              >Fri</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="days" value="sat" /><span
+              >Sat</span
+            ></label
+          >
+        </fieldset>
+
         <label for="maxNumberOfMembers">Max Number Of Members:</label>
         <input
           type="number"
@@ -476,18 +525,64 @@
 
       <div id="editClass-container" class="modal-form" hidden>
         <label for="editClassName">Edit Class Name:</label>
-        <input type="text" id="editClassName name=" editClassName required />
-        <label for="editClassTime">Edit Class Time:</label>
+        <input type="text" id="editClassName" name="editClassName" />
+        <label for="editClassCoach">Edit Class Coach:</label>
+        <input type="text" id="editClassCoach" name="editClassCoach" />
+        <label for="editClassStartTime">Edit Class Start Time:</label>
         <input
           type="number"
-          id="editClassTime"
-          name="editClassTime"
+          id="editClassStartTime"
+          name="editClassStartTime"
           min="0"
           max="23"
-          required
         />
-        <label for="editClassCoach">Edit Class Coach:</label>
-        <input type="text" id="editClassCoach" name="editClassCoach" required />
+        <label for="editClassEndTime">Edit Class End Time:</label>
+        <input
+          type="number"
+          id="editClassEndTime"
+          name="editClassEndTime"
+          min="0"
+          max="23"
+        />
+        <fieldset class="days">
+          <legend>Edit Days</legend>
+
+          <label
+            ><input type="checkbox" name="editedDays" value="sun" /><span
+              >Sun</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="mon" /><span
+              >Mon</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="tue" /><span
+              >Tue</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="wed" /><span
+              >Wed</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="thu" /><span
+              >Thu</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="fri" /><span
+              >Fri</span
+            ></label
+          >
+          <label
+            ><input type="checkbox" name="editedDays" value="sat" /><span
+              >Sat</span
+            ></label
+          >
+        </fieldset>
         <label for="editMaxNumberOfMembers">Edit Max Number Of Members:</label>
         <input
           type="number"
@@ -495,7 +590,6 @@
           name="editMaxNumberOfMembers"
           min="1"
           max="20"
-          required
         />
         <button type="submit" class="btn-primary">Edit Class</button>
         <button type="button" class="btn-secondary" id="cancelEditClassBtn">
@@ -509,8 +603,10 @@
             <thead>
               <tr>
                 <th>Class</th>
-                <th>Time</th>
                 <th>Coach</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Days</th>
                 <th>Booked</th>
                 <th>Max</th>
                 <th>Status</th>
@@ -520,8 +616,10 @@
             <tbody id="classesTableBody">
               <tr data-class-id="1">
                 <td class="user-name">Boxing</td>
-                <td class="class-time">18:00</td>
                 <td>Coach Karim</td>
+                <td class="class-time">18:00</td>
+                <td clas="class-time">19:00</td>
+                <td>Sun / Tue / Fri</td>
                 <td class="class-booked">12</td>
                 <td class="class-max">15</td>
                 <td><span class="badge status-active">Open</span></td>
@@ -559,13 +657,30 @@
                       ></path>
                     </svg>
                   </button>
+                  <button class="action-btn add-class-btn" title="Add Member">
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                      ></path>
+                    </svg>
+                  </button>
                 </td>
               </tr>
 
               <tr data-class-id="2">
                 <td class="user-name">Cardio</td>
-                <td class="class-time">19:00</td>
                 <td>Coach Lina</td>
+                <td class="class-time">18:00</td>
+                <td class="class-time">19:00</td>
+                <td>Mon / Fri</td>
                 <td class="class-booked">8</td>
                 <td class="class-max">10</td>
                 <td><span class="badge status-expiring">Filling Up</span></td>
@@ -593,8 +708,10 @@
 
               <tr data-class-id="3">
                 <td class="user-name">Bodybuilding</td>
-                <td class="class-time">20:00</td>
                 <td>Coach Yousef</td>
+                <td class="class-time">19:00</td>
+                <td class="class-time">20:00</td>
+                <td>Tue / Sat</td>
                 <td class="class-booked">15</td>
                 <td class="class-max">15</td>
                 <td><span class="badge status-inactive">Full</span></td>

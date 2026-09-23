@@ -1,6 +1,6 @@
 const classesTableBody = document.getElementById("classesTableBody");
 const classesData = JSON.parse(localStorage.getItem("classesData")) || [];
-const addClassBtn = document.getElementById("addMemberBtn");
+const addClassBtn = document.getElementById("add-class-btn");
 const addClassForm = document.getElementById("addClassForm");
 const cancelAddClasseBtn = document.getElementById("cancelAddClasseBtn");
 const classSearchInput = document.getElementById("classSearchInput");
@@ -10,13 +10,15 @@ const saveEditClassBtn = document.getElementById("saveEditClassBtn");
 
 // hidden form data
 const className = document.getElementById("className");
-const classTime = document.getElementById("classTime");
+const classStartTime = document.getElementById("classStartTime");
+const classEndTime = document.getElementById("classEndTime");
 const classCoach = document.getElementById("classCoach");
 const maxNumberOfMembers = document.getElementById("maxNumberOfMembers");
 
 // hidden edit form data
 const editClassName = document.getElementById("editClassName");
-const editClassTime = document.getElementById("editClassTime");
+const editClassStartTime = document.getElementById("editClassStartTime");
+const editClassEndTime = document.getElementById("editClassEndTime");
 const editClassCoach = document.getElementById("editClassCoach");
 const editMaxNumberOfMembers = document.getElementById(
   "editMaxNumberOfMembers",
@@ -24,14 +26,16 @@ const editMaxNumberOfMembers = document.getElementById(
 
 function classString(classObj) {
   return `
-            <td class="user-name">${classObj.name}</td>
-                <td class="class-time">${classObj.startTime}</td>
+             <td class="user-name">${classObj.name}</td>
                 <td>Coach ${classObj.coach}</td>
+                <td class="class-time">${classObj.startTime}:00</td>
+                <td clas="class-time">${classObj.endTime}:00</td>
+                <td>${classObj.day}</td>
                 <td class="class-booked">${classObj.enrolledMembers.length}</td>
                 <td class="class-max">${classObj.maxCapacity}</td>
-                <td><span class="${classObj.enrolledMembers < maxCapacity ? "badge status-active" : "badge status-inactive"}">Open</span></td>
+                <td><span class="${classObj.enrolledMembers < maxCapacity ? "badge status-active" : "badge status-inactive"}">${classObj.enrolledMembers < maxCapacity ? "Open" : "Full"}</span></td>
                 <td class="actions-cell">
-                  <button
+                   <button
                     class="action-btn edit-class-btn"
                     title="Manage Class"
                   >
@@ -64,12 +68,27 @@ function classString(classObj) {
                       ></path>
                     </svg>
                   </button>
+                  <button class="action-btn add-member-btn" title="Add Member">
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                      ></path>
+                    </svg>
+                  </button>
                 </td>
           `;
 }
 
-function displayMembers() {
-  for (let user of members) {
+function displayClasses() {
+  for (let user of classesData) {
     let member = document.createElement("tr");
     member.setAttribute("id", user.name);
     member.innerHTML = memberString(user);
@@ -78,54 +97,57 @@ function displayMembers() {
   }
 }
 
-function saveEditedMember(member) {
-  const editedMember = {
+function saveEditedClass(member) {
+  const editedClass = {
     name: editClassName.value,
-    membershipType: editClassTime.value,
-    membershipStartDate: editClassCoach.value,
-    membershipEndDate: editMaxNumberOfMembers.value,
-    contactNumber: editContactNumber.value,
-    trainer: editTrainer.value,
+    coach: editClassCoach.value,
+    startTime: editClassStartTime.value,
+    endTime: editClassEndTime.value,
+    day: editContactNumber.value,
+    maxCapacity: editMaxNumberOfMembers.value,
     status: member?.status,
+    enrolledMembers: member.enrolledMembers,
   };
   let index;
-  members.some((user) => {
+  classesData.some((user) => {
     if (member.name === user.name) {
-      index = members.indexOf(user);
+      index = classesData.indexOf(user);
       return true;
     }
   });
-  members[index] = editedMember;
-  localStorage.setItem("membersData", JSON.stringify(members));
+  classesData[index] = editedClass;
+  localStorage.setItem("classesData", JSON.stringify(classesData));
 
   editClassContainer.setAttribute("hidden", true);
-  document.getElementById(member.name).innerHTML = memberString(editedMember);
+  document.getElementById(member.name).innerHTML = classString(editedClass);
 }
 
-function addMember(
+function addClass(
   name,
-  membershipType,
-  membershipStartDate,
-  membershipEndDate,
-  contactNumber,
+  coach,
+  startTime,
+  endTime,
+  day,
   status,
-  trainer,
+  maxCapacity,
+  enrolledMembers,
 ) {
   const user = {
     name,
-    membershipType,
-    membershipStartDate,
-    membershipEndDate,
-    contactNumber,
+    coach,
+    startTime,
+    endTime,
+    day,
     status,
-    trainer,
+    maxCapacity,
+    enrolledMembers,
   };
-  members.push(user);
-  localStorage.setItem("membersData", JSON.stringify(members));
+  classesData.push(user);
+  localStorage.setItem("classesData", JSON.stringify(classesData));
 
   let member = document.createElement("tr");
   member.setAttribute("id", name);
-  member.innerHTML = memberString(user);
+  member.innerHTML = classString(user);
 
   classesTableBody.appendChild(member);
 }
@@ -137,24 +159,24 @@ classesTableBody.addEventListener("click", (e) => {
     const row = deleteBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
 
-    members.splice(index, 1);
-    localStorage.setItem("membersData", JSON.stringify(members));
+    classesData.splice(index, 1);
+    localStorage.setItem("classesData", JSON.stringify(classesData));
     row.remove();
   } else if (editBtn) {
     const row = editBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
-    const member = members[index];
+    const member = classesData[index];
     editClassContainer.removeAttribute("hidden");
     editClassName.value = member.name;
-    editClassTime.value = member.membershipType;
-    editClassCoach.value = member.membershipStartDate;
-    editMaxNumberOfMembers.value = member.membershipEndDate;
-    editContactNumber.value = member.contactNumber;
-    editTrainer.value = member.trainer ? member.trainer : "No Trainer";
+    editClassStartTime.value = member.classStartTime;
+    editClassCoach.value = member.classCoach;
+    editMaxNumberOfMembers.value = member.maxCapacity;
+    editClassEndTime.value = member.endTime;
   }
 });
 
-addBtn.addEventListener("click", () => {
+addClassBtn.addEventListener("click", () => {
+  alert(12);
   addClassForm.removeAttribute("hidden");
 });
 

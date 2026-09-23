@@ -595,3 +595,42 @@ tbody tr:hover {
 .modal-form button[type="button"] {
   margin-top: 0.5rem;
 }
+.days {
+  border: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.days legend {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* hide the checkbox visually but keep it focusable */
+.days input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.days span {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.days input:checked + span {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.days input:focus-visible + span {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
