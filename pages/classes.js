@@ -1,5 +1,5 @@
 const classesTableBody = document.getElementById("classesTableBody");
-const classesData = JSON.parse(localStorage.getItem("classesData")) || [];
+const classeStorge = JSON.parse(localStorage.getItem("classesData")) || [];
 const addClassBtn = document.getElementById("add-class-btn");
 const addClassForm = document.getElementById("addClassForm");
 const cancelAddClasseBtn = document.getElementById("cancelAddClasseBtn");
@@ -33,7 +33,7 @@ function classString(classObj) {
                 <td>${classObj.day}</td>
                 <td class="class-booked">${classObj.enrolledMembers.length}</td>
                 <td class="class-max">${classObj.maxCapacity}</td>
-                <td><span class="${classObj.enrolledMembers < maxCapacity ? "badge status-active" : "badge status-inactive"}">${classObj.enrolledMembers < maxCapacity ? "Open" : "Full"}</span></td>
+                <td><span class="${classObj.enrolledMembers.length < classObj.maxCapacity ? "badge status-active" : "badge status-inactive"}">${classObj.enrolledMembers.length < classObj.maxCapacity ? "Open" : "Full"}</span></td>
                 <td class="actions-cell">
                    <button
                     class="action-btn edit-class-btn"
@@ -88,10 +88,10 @@ function classString(classObj) {
 }
 
 function displayClasses() {
-  for (let user of classesData) {
+  for (let user of classeStorge) {
     let member = document.createElement("tr");
     member.setAttribute("id", user.name);
-    member.innerHTML = memberString(user);
+    member.innerHTML = classString(user);
 
     classesTableBody.appendChild(member);
   }
@@ -109,14 +109,14 @@ function saveEditedClass(member) {
     enrolledMembers: member.enrolledMembers,
   };
   let index;
-  classesData.some((user) => {
+  classeStorge.some((user) => {
     if (member.name === user.name) {
-      index = classesData.indexOf(user);
+      index = classeStorge.indexOf(user);
       return true;
     }
   });
-  classesData[index] = editedClass;
-  localStorage.setItem("classesData", JSON.stringify(classesData));
+  classeStorge[index] = editedClass;
+  localStorage.setItem("classesData", JSON.stringify(classeStorge));
 
   editClassContainer.setAttribute("hidden", true);
   document.getElementById(member.name).innerHTML = classString(editedClass);
@@ -142,8 +142,8 @@ function addClass(
     maxCapacity,
     enrolledMembers,
   };
-  classesData.push(user);
-  localStorage.setItem("classesData", JSON.stringify(classesData));
+  classeStorge.push(user);
+  localStorage.setItem("classesData", JSON.stringify(classeStorge));
 
   let member = document.createElement("tr");
   member.setAttribute("id", name);
@@ -159,13 +159,13 @@ classesTableBody.addEventListener("click", (e) => {
     const row = deleteBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
 
-    classesData.splice(index, 1);
-    localStorage.setItem("classesData", JSON.stringify(classesData));
+    classeStorge.splice(index, 1);
+    localStorage.setItem("classesData", JSON.stringify(classeStorge));
     row.remove();
   } else if (editBtn) {
     const row = editBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
-    const member = classesData[index];
+    const member = classeStorge[index];
     editClassContainer.removeAttribute("hidden");
     editClassName.value = member.name;
     editClassStartTime.value = member.classStartTime;
@@ -176,7 +176,6 @@ classesTableBody.addEventListener("click", (e) => {
 });
 
 addClassBtn.addEventListener("click", () => {
-  alert(12);
   addClassForm.removeAttribute("hidden");
 });
 
@@ -245,4 +244,4 @@ saveEditClassBtn.addEventListener("click", () => {
   editClassContainer.setAttribute("hidden", true);
 });
 
-displayMembers();
+displayClasses();
