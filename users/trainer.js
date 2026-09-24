@@ -1,6 +1,8 @@
 const staffMembers = JSON.parse(localStorage.getItem("allSystemsUsers")) || [];
 const selectTrainer = document.getElementById("trainer");
 const editSelectTrainer = document.getElementById("editTrainer");
+const selectCoach = document.getElementById("selectCoach");
+const editSelectCoach = document.getElementById("editSelectCoach");
 
 const trainers = [];
 
@@ -16,6 +18,8 @@ function trainersSelectOption(trainers) {
   for (let trainer of trainers) {
     editSelectTrainer.innerHTML += trainersOptions(trainer);
     selectTrainer.innerHTML += trainersOptions(trainer);
+    selectCoach.innerHTML += trainersOptions(trainer);
+    editSelectCoach.innerHTML += trainersOptions(trainer);
   }
 }
 trainersSelectOption(trainers);

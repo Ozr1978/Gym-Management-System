@@ -140,7 +140,7 @@ const classesData = [
   },
   {
     name: "Zumba",
-    coach: "Ahmed Ali",
+    coach: "Khalid Moath",
     startTime: "18:00",
     endTime: "19:00",
     day: "Tue, Thu",

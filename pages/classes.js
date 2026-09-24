@@ -7,6 +7,9 @@ const classSearchInput = document.getElementById("classSearchInput");
 const editClassContainer = document.getElementById("editClass-container");
 const cancelEditClassBtn = document.getElementById("cancelEditClassBtn");
 const saveEditClassBtn = document.getElementById("saveEditClassBtn");
+const cancelBookMemberBtn = document.getElementById("cancelBookMemberBtn");
+const addMemberToClass = document.getElementById("add-member-to-class");
+const membersDashboard = document.getElementById("members-dashboard");
 
 // hidden form data
 const className = document.getElementById("className");
@@ -19,7 +22,6 @@ const maxNumberOfMembers = document.getElementById("maxNumberOfMembers");
 const editClassName = document.getElementById("editClassName");
 const editClassStartTime = document.getElementById("editClassStartTime");
 const editClassEndTime = document.getElementById("editClassEndTime");
-const editClassCoach = document.getElementById("editClassCoach");
 const editMaxNumberOfMembers = document.getElementById(
   "editMaxNumberOfMembers",
 );
@@ -28,8 +30,8 @@ function classString(classObj) {
   return `
              <td class="user-name">${classObj.name}</td>
                 <td>Coach ${classObj.coach}</td>
-                <td class="class-time">${classObj.startTime}:00</td>
-                <td clas="class-time">${classObj.endTime}:00</td>
+                <td class="class-time">${classObj.startTime}</td>
+                <td clas="class-time">${classObj.endTime}</td>
                 <td>${classObj.day}</td>
                 <td class="class-booked">${classObj.enrolledMembers.length}</td>
                 <td class="class-max">${classObj.maxCapacity}</td>
@@ -68,7 +70,7 @@ function classString(classObj) {
                       ></path>
                     </svg>
                   </button>
-                  <button class="action-btn add-member-btn" title="Add Member">
+                  <button class="add-member-btn" title="Add Member">
                     <svg
                       class="icon"
                       fill="none"
@@ -100,7 +102,7 @@ function displayClasses() {
 function saveEditedClass(member) {
   const editedClass = {
     name: editClassName.value,
-    coach: editClassCoach.value,
+    coach: editSelectCoach.value,
     startTime: editClassStartTime.value,
     endTime: editClassEndTime.value,
     day: editContactNumber.value,
@@ -155,6 +157,7 @@ function addClass(
 classesTableBody.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".action-btn");
+  const bookMemberBtn = e.target.closest(".add-member-btn");
   if (deleteBtn) {
     const row = deleteBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
@@ -168,10 +171,15 @@ classesTableBody.addEventListener("click", (e) => {
     const member = classeStorge[index];
     editClassContainer.removeAttribute("hidden");
     editClassName.value = member.name;
-    editClassStartTime.value = member.classStartTime;
-    editClassCoach.value = member.classCoach;
+    editClassStartTime.value = member.startTime;
+    editSelectCoach.value = member.coach;
     editMaxNumberOfMembers.value = member.maxCapacity;
     editClassEndTime.value = member.endTime;
+  } else if (bookMemberBtn) {
+    const row = bookMemberBtn.closest("tr");
+    const index = Array.from(classesTableBody.children).indexOf(row);
+    const member = classeStorge[index];
+    addMemberToClass.removeAttribute("hidden");
   }
 });
 
@@ -182,23 +190,13 @@ addClassBtn.addEventListener("click", () => {
 cancelAddClasseBtn.addEventListener("click", () => {
   addClassForm.setAttribute("hidden", true);
   className.value = "";
-  membershipType.value = "basic";
-  membershipStartDate.value = "";
-  membershipEndDate.value = "";
-  contactNumber.value = "";
-  trainer.value = "No Trainer";
+  classStartTime.value = "";
+  classEndTime.value = "";
+  maxNumberOfMembers.value = "";
 });
 
 addClassForm.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  const startDate = new Date(membershipStartDate.value);
-  const endDate = new Date(membershipEndDate.value);
-
-  if (endDate - startDate <= 0) {
-    alert("Enter A Valid date length");
-    return;
-  }
 
   addMember(
     className.value,
@@ -212,11 +210,10 @@ addClassForm.addEventListener("submit", (event) => {
 
   addClassForm.setAttribute("hidden", true);
   className.value = "";
-  membershipType.value = "basic";
-  membershipStartDate.value = "";
-  membershipEndDate.value = "";
-  contactNumber.value = "";
-  trainer.value = "No Trainer";
+  classStartTime.value = "";
+  classEndTime.value = "";
+  classCoach.value = "";
+  maxNumberOfMembers.value = "";
 });
 
 classSearchInput.addEventListener("input", () => {
@@ -239,9 +236,16 @@ cancelEditClassBtn.addEventListener("click", () => {
 
 saveEditClassBtn.addEventListener("click", () => {
   const row = document.getElementById(editClassName.value);
-  const member = members.find((user) => user.name === row.id);
+  const member = classeStorge.find((user) => user.name === row.id);
   saveEditedMember(member);
   editClassContainer.setAttribute("hidden", true);
+});
+addMemberToClass.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
+
+cancelBookMemberBtn.addEventListener("click", () => {
+  addMemberToClass.setAttribute("hidden", true);
 });
 
 displayClasses();

@@ -446,26 +446,12 @@
       <form id="addClassForm" class="modal-form" hidden>
         <label for="className">Class Name:</label>
         <input type="text" id="className" name="className" required />
-        <label for="classCoach">Class Coach:</label>
-        <input type="text" id="classCoach" name="classCoach" required />
+        <label for="selectCoach">Class Coach:</label>
+        <select id="selectCoach"></select>
         <label for="classStartTime">Class Start Time:</label>
-        <input
-          type="number"
-          id="classStartTime"
-          name="classStartTime"
-          min="0"
-          max="23"
-          required
-        />
+        <input type="time" id="classStartTime" name="classStartTime" required />
         <label for="classEndTime">Class End Time:</label>
-        <input
-          type="number"
-          id="classEndTime"
-          name="classEndTime"
-          min="0"
-          max="23"
-          required
-        />
+        <input type="time" id="classEndTime" name="classEndTime" required />
         <fieldset class="days">
           <legend>Select Days</legend>
 
@@ -523,27 +509,15 @@
         </button>
       </form>
 
-      <div id="editClass-container" class="modal-form" hidden>
+      <form id="editClass-container" class="modal-form" hidden>
         <label for="editClassName">Edit Class Name:</label>
         <input type="text" id="editClassName" name="editClassName" />
-        <label for="editClassCoach">Edit Class Coach:</label>
-        <input type="text" id="editClassCoach" name="editClassCoach" />
+        <label for="editSelectCoach">Edit Class Coach:</label>
+        <select id="editSelectCoach"></select>
         <label for="editClassStartTime">Edit Class Start Time:</label>
-        <input
-          type="number"
-          id="editClassStartTime"
-          name="editClassStartTime"
-          min="0"
-          max="23"
-        />
+        <input type="time" id="editClassStartTime" name="editClassStartTime" />
         <label for="editClassEndTime">Edit Class End Time:</label>
-        <input
-          type="number"
-          id="editClassEndTime"
-          name="editClassEndTime"
-          min="0"
-          max="23"
-        />
+        <input type="time" id="editClassEndTime" name="editClassEndTime" />
         <fieldset class="days">
           <legend>Edit Days</legend>
 
@@ -595,7 +569,17 @@
         <button type="button" class="btn-secondary" id="cancelEditClassBtn">
           Cancel
         </button>
-      </div>
+      </form>
+
+      <form id="add-member-to-class" class="modal-form" hidden>
+        <label for="member-to-add">Choose A Member To Add:</label>
+        <select id="member-to-add"></select>
+
+        <button type="submit" class="btn-primary">Book A Member:</button>
+        <button type="button" class="btn-secondary" id="cancelBookMemberBtn">
+          Cancel
+        </button>
+      </form>
 
       <main class="table-card">
         <div class="table-wrapper">
@@ -613,130 +597,7 @@
                 <th style="text-align: right">Actions</th>
               </tr>
             </thead>
-            <tbody id="classesTableBody">
-              <tr data-class-id="1">
-                <td class="user-name">Boxing</td>
-                <td>Coach Karim</td>
-                <td class="class-time">18:00</td>
-                <td clas="class-time">19:00</td>
-                <td>Sun / Tue / Fri</td>
-                <td class="class-booked">12</td>
-                <td class="class-max">15</td>
-                <td><span class="badge status-active">Open</span></td>
-                <td class="actions-cell">
-                  <button
-                    class="action-btn edit-class-btn"
-                    title="Manage Class"
-                  >
-                    <svg
-                      class="icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      ></path>
-                    </svg>
-                  </button>
-                  <button class="delete-btn" title="Delete">
-                    <svg
-                      class="icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </button>
-                  <button class="action-btn add-class-btn" title="Add Member">
-                    <svg
-                      class="icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 4v16m8-8H4"
-                      ></path>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-
-              <tr data-class-id="2">
-                <td class="user-name">Cardio</td>
-                <td>Coach Lina</td>
-                <td class="class-time">18:00</td>
-                <td class="class-time">19:00</td>
-                <td>Mon / Fri</td>
-                <td class="class-booked">8</td>
-                <td class="class-max">10</td>
-                <td><span class="badge status-expiring">Filling Up</span></td>
-                <td class="actions-cell">
-                  <button
-                    class="action-btn edit-class-btn"
-                    title="Manage Class"
-                  >
-                    <svg
-                      class="icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      ></path>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-
-              <tr data-class-id="3">
-                <td class="user-name">Bodybuilding</td>
-                <td>Coach Yousef</td>
-                <td class="class-time">19:00</td>
-                <td class="class-time">20:00</td>
-                <td>Tue / Sat</td>
-                <td class="class-booked">15</td>
-                <td class="class-max">15</td>
-                <td><span class="badge status-inactive">Full</span></td>
-                <td class="actions-cell">
-                  <button
-                    class="action-btn edit-class-btn"
-                    title="Manage Class"
-                  >
-                    <svg
-                      class="icon"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      ></path>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="classesTableBody"></tbody>
           </table>
         </div>
       </main>

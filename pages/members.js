@@ -7,6 +7,7 @@ const memberSearchInput = document.getElementById("memberSearchInput");
 const editContainer = document.getElementById("edit-container");
 const cancelEditMemberBtn = document.getElementById("cancelEditMemberBtn");
 const saveEditMemberBtn = document.getElementById("saveEditMemberBtn");
+const memberToAdd = document.getElementById("member-to-add");
 
 // hidden form data
 const fullName = document.getElementById("memberName");
@@ -104,6 +105,16 @@ function addMember(
   membersTableBody.appendChild(member);
 }
 
+function membersOptions(member) {
+  return `<option value="${member.name}">${member.name}</option>`;
+}
+
+function membersSelectOption(members) {
+  for (let member of members) {
+    memberToAdd.innerHTML += membersOptions(member);
+  }
+}
+
 membersTableBody.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".action-btn");
@@ -198,3 +209,4 @@ saveEditMemberBtn.addEventListener("click", () => {
 });
 
 displayMembers();
+membersSelectOption(members);
