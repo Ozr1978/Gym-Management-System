@@ -15,7 +15,7 @@ const membersDashboard = document.getElementById("members-dashboard");
 const className = document.getElementById("className");
 const classStartTime = document.getElementById("classStartTime");
 const classEndTime = document.getElementById("classEndTime");
-const classCoach = document.getElementById("classCoach");
+const selectedCoach = document.getElementById("selectCoach");
 const maxNumberOfMembers = document.getElementById("maxNumberOfMembers");
 
 // hidden edit form data
@@ -25,13 +25,14 @@ const editClassEndTime = document.getElementById("editClassEndTime");
 const editMaxNumberOfMembers = document.getElementById(
   "editMaxNumberOfMembers",
 );
+const editSelectCoach = document.getElementById("editSelectCoach");
 
 function classString(classObj) {
   return `
              <td class="user-name">${classObj.name}</td>
                 <td>Coach ${classObj.coach}</td>
                 <td class="class-time">${classObj.startTime}</td>
-                <td clas="class-time">${classObj.endTime}</td>
+                <td class="class-time">${classObj.endTime}</td>
                 <td>${classObj.day}</td>
                 <td class="class-booked">${classObj.enrolledMembers.length}</td>
                 <td class="class-max">${classObj.maxCapacity}</td>
@@ -100,14 +101,20 @@ function displayClasses() {
 }
 
 function saveEditedClass(member) {
+  const days = [
+    ...document.querySelectorAll('input[name="editedDays"]:checked'),
+  ]
+    .map((cb) => cb.value.charAt(0).toUpperCase() + cb.value.slice(1))
+    .join(" / ");
+  // ["mon", "wed"]
+
   const editedClass = {
     name: editClassName.value,
     coach: editSelectCoach.value,
     startTime: editClassStartTime.value,
     endTime: editClassEndTime.value,
-    day: editContactNumber.value,
+    day: days,
     maxCapacity: editMaxNumberOfMembers.value,
-    status: member?.status,
     enrolledMembers: member.enrolledMembers,
   };
   let index;
@@ -130,7 +137,6 @@ function addClass(
   startTime,
   endTime,
   day,
-  status,
   maxCapacity,
   enrolledMembers,
 ) {
@@ -140,7 +146,6 @@ function addClass(
     startTime,
     endTime,
     day,
-    status,
     maxCapacity,
     enrolledMembers,
   };
@@ -152,6 +157,23 @@ function addClass(
   member.innerHTML = classString(user);
 
   classesTableBody.appendChild(member);
+}
+
+function renderBookedMembers(bookedMembers) {
+  const container = document.getElementById("bookedMembersList");
+
+  if (bookedMembers.length === 0) {
+    container.textContent = "No members booked yet.";
+    return;
+  }
+
+  container.replaceChildren(
+    ...bookedMembers.map((m) => {
+      const p = document.createElement("p");
+      p.textContent = m.name;
+      return p;
+    }),
+  );
 }
 
 classesTableBody.addEventListener("click", (e) => {
@@ -175,11 +197,17 @@ classesTableBody.addEventListener("click", (e) => {
     editSelectCoach.value = member.coach;
     editMaxNumberOfMembers.value = member.maxCapacity;
     editClassEndTime.value = member.endTime;
+    const days = member.day.split(" / ").map((day) => day.toLowerCase());
+    document.querySelectorAll('input[name="editedDays"]').forEach((cb) => {
+      cb.checked = days.includes(cb.value);
+    });
   } else if (bookMemberBtn) {
     const row = bookMemberBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
     const member = classeStorge[index];
     addMemberToClass.removeAttribute("hidden");
+
+    renderBookedMembers(member.enrolledMembers);
   }
 });
 
@@ -198,21 +226,26 @@ cancelAddClasseBtn.addEventListener("click", () => {
 addClassForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  addMember(
+  const days = new FormData(event.target)
+    .getAll("days")
+    .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
+    .join(" / ");
+
+  addClass(
     className.value,
-    membershipType.value,
-    membershipStartDate.value,
-    membershipEndDate.value,
-    contactNumber.value,
-    "active",
-    trainer.value,
+    selectedCoach.value,
+    classStartTime.value,
+    classEndTime.value,
+    days,
+    maxNumberOfMembers.value,
+    [],
   );
 
   addClassForm.setAttribute("hidden", true);
   className.value = "";
   classStartTime.value = "";
   classEndTime.value = "";
-  classCoach.value = "";
+  selectedCoach.value = "";
   maxNumberOfMembers.value = "";
 });
 
@@ -237,7 +270,7 @@ cancelEditClassBtn.addEventListener("click", () => {
 saveEditClassBtn.addEventListener("click", () => {
   const row = document.getElementById(editClassName.value);
   const member = classeStorge.find((user) => user.name === row.id);
-  saveEditedMember(member);
+  saveEditedClass(member);
   editClassContainer.setAttribute("hidden", true);
 });
 addMemberToClass.addEventListener("submit", (event) => {

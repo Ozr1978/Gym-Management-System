@@ -501,15 +501,13 @@
           max="20"
           required
         />
-        <button type="submit" class="btn-primary" id="saveEditClassBtn">
-          Add Class
-        </button>
+        <button type="submit" class="btn-primary">Add Class</button>
         <button type="button" class="btn-secondary" id="cancelAddClasseBtn">
           Cancel
         </button>
       </form>
 
-      <form id="editClass-container" class="modal-form" hidden>
+      <div id="editClass-container" class="modal-form" hidden>
         <label for="editClassName">Edit Class Name:</label>
         <input type="text" id="editClassName" name="editClassName" />
         <label for="editSelectCoach">Edit Class Coach:</label>
@@ -565,16 +563,18 @@
           min="1"
           max="20"
         />
-        <button type="submit" class="btn-primary">Edit Class</button>
+        <button type="button" class="btn-primary" id="saveEditClassBtn">
+          Edit Class
+        </button>
         <button type="button" class="btn-secondary" id="cancelEditClassBtn">
           Cancel
         </button>
-      </form>
+      </div>
 
       <form id="add-member-to-class" class="modal-form" hidden>
         <label for="member-to-add">Choose A Member To Add:</label>
         <select id="member-to-add"></select>
-
+        <div id="bookedMembersList">helllooooo</div>
         <button type="submit" class="btn-primary">Book A Member:</button>
         <button type="button" class="btn-secondary" id="cancelBookMemberBtn">
           Cancel

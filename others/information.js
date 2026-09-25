@@ -124,7 +124,7 @@ const classesData = [
     coach: "Sara Hassan",
     startTime: "10:00",
     endTime: "11:00",
-    day: "Mon, Wed, Fri",
+    day: "Mon / Wed / Fri",
     status: "available",
     maxCapacity: 20,
     enrolledMembers: [
@@ -143,7 +143,7 @@ const classesData = [
     coach: "Khalid Moath",
     startTime: "18:00",
     endTime: "19:00",
-    day: "Tue, Thu",
+    day: "Tue / Thu",
     status: "available",
     maxCapacity: 15,
     enrolledMembers: [
@@ -162,7 +162,7 @@ const classesData = [
     coach: "Sara Hassan",
     startTime: "15:00",
     endTime: "16:00",
-    day: "Mon, Wed, Fri",
+    day: "Mon / Wed / Fri",
     status: "available",
     maxCapacity: 10,
     enrolledMembers: [

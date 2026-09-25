@@ -204,6 +204,14 @@ cancelEditMemberBtn.addEventListener("click", () => {
 saveEditMemberBtn.addEventListener("click", () => {
   const row = document.getElementById(editMemberName.value);
   const member = members.find((user) => user.name === row.id);
+
+  const startDate = new Date(editMembershipEndDate.value);
+  const endDate = new Date(editMembershipEndDate.value);
+
+  if (endDate - startDate <= 0) {
+    alert("Enter A Valid date length");
+    return;
+  }
   saveEditedMember(member);
   editContainer.setAttribute("hidden", true);
 });
