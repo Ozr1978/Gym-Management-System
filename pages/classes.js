@@ -106,7 +106,6 @@ function saveEditedClass(member) {
   ]
     .map((cb) => cb.value.charAt(0).toUpperCase() + cb.value.slice(1))
     .join(" / ");
-  // ["mon", "wed"]
 
   const editedClass = {
     name: editClassName.value,
@@ -169,9 +168,25 @@ function renderBookedMembers(bookedMembers) {
 
   container.replaceChildren(
     ...bookedMembers.map((m) => {
-      const p = document.createElement("p");
-      p.textContent = m.name;
-      return p;
+      const div = document.createElement("div");
+      div.setAttribute("id", m.name);
+      div.innerHTML = `${m.name}
+
+      <button class="delete-btn" title="Delete" type="button"><svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg></button>`;
+
+      return div;
     }),
   );
 }
@@ -206,7 +221,10 @@ classesTableBody.addEventListener("click", (e) => {
     const index = Array.from(classesTableBody.children).indexOf(row);
     const member = classeStorge[index];
     addMemberToClass.removeAttribute("hidden");
-
+    const span = document.createElement("span");
+    span.setAttribute("id", member.name);
+    span.setAttribute("class", "target");
+    addMemberToClass.appendChild(span);
     renderBookedMembers(member.enrolledMembers);
   }
 });
@@ -273,12 +291,10 @@ saveEditClassBtn.addEventListener("click", () => {
   saveEditedClass(member);
   editClassContainer.setAttribute("hidden", true);
 });
-addMemberToClass.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
 
 cancelBookMemberBtn.addEventListener("click", () => {
   addMemberToClass.setAttribute("hidden", true);
+  addMemberToClass.removeChild(document.querySelector(".target"));
 });
 
 displayClasses();
