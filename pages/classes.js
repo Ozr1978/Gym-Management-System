@@ -27,6 +27,31 @@ const editMaxNumberOfMembers = document.getElementById(
 );
 const editSelectCoach = document.getElementById("editSelectCoach");
 
+class Klass {
+  static count = Number(localStorage.getItem("classCount")) || 4;
+  constructor(
+    name,
+    coach,
+    startTime,
+    endTime,
+    enrolledMembers,
+    waitingList,
+    maxCapacity,
+    day,
+  ) {
+    this.name = name;
+    this.coach = coach;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.enrolledMembers = enrolledMembers;
+    this.waitingList = waitingList;
+    this.maxCapacity = maxCapacity;
+    this.day = day;
+    this.id = `classId-${Klass.count++}`;
+    localStorage.setItem("classCount", Klass.count);
+  }
+}
+
 function classString(classObj) {
   return `
              <td class="user-name">${classObj.name}</td>
@@ -115,10 +140,12 @@ function saveEditedClass(member) {
     day: days,
     maxCapacity: editMaxNumberOfMembers.value,
     enrolledMembers: member.enrolledMembers,
+    waitingList: member.waitingList,
+    id: member.id,
   };
   let index;
   classeStorge.some((user) => {
-    if (member.name === user.name) {
+    if (member.id === user.id) {
       index = classeStorge.indexOf(user);
       return true;
     }
@@ -130,29 +157,22 @@ function saveEditedClass(member) {
   document.getElementById(member.name).innerHTML = classString(editedClass);
 }
 
-function addClass(
-  name,
-  coach,
-  startTime,
-  endTime,
-  day,
-  maxCapacity,
-  enrolledMembers,
-) {
-  const user = {
+function addClass(name, coach, startTime, endTime, day, maxCapacity) {
+  const user = new Klass(
     name,
     coach,
     startTime,
     endTime,
-    day,
+    [],
+    [],
     maxCapacity,
-    enrolledMembers,
-  };
+    day,
+  );
   classeStorge.push(user);
   localStorage.setItem("classesData", JSON.stringify(classeStorge));
 
   let member = document.createElement("tr");
-  member.setAttribute("id", name);
+  member.setAttribute("id", user.id);
   member.innerHTML = classString(user);
 
   classesTableBody.appendChild(member);
@@ -172,7 +192,7 @@ function renderBookedMembers(bookedMembers) {
       div.setAttribute("id", m.name);
       div.innerHTML = `${m.name}
 
-      <button class="delete-btn" title="Delete" type="button"><svg
+      <button class="delete-btn-class" title="Delete" type="button"><svg
                       class="icon"
                       fill="none"
                       stroke="currentColor"
@@ -205,27 +225,31 @@ classesTableBody.addEventListener("click", (e) => {
   } else if (editBtn) {
     const row = editBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
-    const member = classeStorge[index];
+    const klass = classeStorge[index];
     editClassContainer.removeAttribute("hidden");
-    editClassName.value = member.name;
-    editClassStartTime.value = member.startTime;
-    editSelectCoach.value = member.coach;
-    editMaxNumberOfMembers.value = member.maxCapacity;
-    editClassEndTime.value = member.endTime;
-    const days = member.day.split(" / ").map((day) => day.toLowerCase());
+    editClassName.value = klass.name;
+    editClassStartTime.value = klass.startTime;
+    editSelectCoach.value = klass.coach;
+    editMaxNumberOfMembers.value = klass.maxCapacity;
+    editClassEndTime.value = klass.endTime;
+    const days = klass.day.split(" / ").map((day) => day.toLowerCase());
     document.querySelectorAll('input[name="editedDays"]').forEach((cb) => {
       cb.checked = days.includes(cb.value);
     });
+    const span = document.createElement("span");
+    span.setAttribute("name", klass.id);
+    span.setAttribute("class", "point");
+    editClassContainer.appendChild(span);
   } else if (bookMemberBtn) {
     const row = bookMemberBtn.closest("tr");
     const index = Array.from(classesTableBody.children).indexOf(row);
-    const member = classeStorge[index];
+    const klass = classeStorge[index];
     addMemberToClass.removeAttribute("hidden");
     const span = document.createElement("span");
-    span.setAttribute("id", member.name);
+    span.setAttribute("id", klass.id);
     span.setAttribute("class", "target");
     addMemberToClass.appendChild(span);
-    renderBookedMembers(member.enrolledMembers);
+    renderBookedMembers(klass.enrolledMembers);
   }
 });
 
@@ -256,7 +280,6 @@ addClassForm.addEventListener("submit", (event) => {
     classEndTime.value,
     days,
     maxNumberOfMembers.value,
-    [],
   );
 
   addClassForm.setAttribute("hidden", true);
@@ -283,13 +306,17 @@ classSearchInput.addEventListener("input", () => {
 
 cancelEditClassBtn.addEventListener("click", () => {
   editClassContainer.setAttribute("hidden", true);
+  editClassContainer.removeChild(document.querySelector(".point"));
 });
 
 saveEditClassBtn.addEventListener("click", () => {
-  const row = document.getElementById(editClassName.value);
-  const member = classeStorge.find((user) => user.name === row.id);
-  saveEditedClass(member);
+  const row = document.querySelector(".point");
+  const id = row.getAttribute("name");
+  const klass = classeStorge.find((user) => user.id === id);
+
+  saveEditedClass(klass);
   editClassContainer.setAttribute("hidden", true);
+  editClassContainer.removeChild(row);
 });
 
 cancelBookMemberBtn.addEventListener("click", () => {

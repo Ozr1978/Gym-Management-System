@@ -137,6 +137,8 @@ const classesData = [
         status: "active",
       },
     ],
+    waitingList: [],
+    id: `classId-1`,
   },
   {
     name: "Zumba",
@@ -156,6 +158,8 @@ const classesData = [
         status: "active",
       },
     ],
+    waitingList: [],
+    id: `classId-2`,
   },
   {
     name: "Pilates",
@@ -183,6 +187,8 @@ const classesData = [
         status: "active",
       },
     ],
+    waitingList: [],
+    id: `classId-3`,
   },
 ];
 /*

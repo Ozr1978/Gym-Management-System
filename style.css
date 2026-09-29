@@ -253,10 +253,24 @@ tbody tr:hover {
     color 0.15s,
     background-color 0.15s;
 }
+.delete-btn-class {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 0.375rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
 
 .action-btn:hover {
   background-color: #334155;
   color: #f8fafc;
+}
+.delete-btn-class:hover {
+  color: #fb7185;
 }
 
 .add-member-btn:hover {

@@ -61,12 +61,6 @@ function classString(classObj) {
           `;
 }
 
-function removeBookedMember(btns) {
-  btns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {});
-  });
-}
-
 function bookMemberToClass(klass, memberName) {
   let isBooked = false;
   for (let enrolled of klass.enrolledMembers) {
@@ -85,20 +79,38 @@ function bookMemberToClass(klass, memberName) {
 
   const member = users.find((user) => memberName === user.name);
   klass.enrolledMembers.push(member);
-  const index = classeStorge.findIndex((c) => c.name === klass.name);
+  const index = classeStorge.findIndex((c) => c.id === klass.id);
   classeStorge[index] = klass;
 
   addMemberToClass.removeChild(document.querySelector(".target"));
   localStorage.setItem("classesData", JSON.stringify(classeStorge));
-  document.getElementById(klass.name).innerHTML = classString(klass);
+  document.getElementById(klass.id).innerHTML = classString(klass);
 }
 
 addMemberToClass.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const elem = event.target.querySelector(".target");
-  const klass = classeStorge.find((c) => c.name === elem.id);
-  const deleteBtns = event.target.querySelectorAll(".delete-btn");
+  const klass = classeStorge.find((c) => c.id === elem.id);
   bookMemberToClass(klass, memberToAdd.value);
   addMemberToClass.setAttribute("hidden", true);
+});
+addMemberToClass.addEventListener("click", (e) => {
+  const deleteBtn = e.target.closest(".delete-btn-class");
+
+  const elem = document.querySelector(".target");
+
+  if (deleteBtn) {
+    const row = deleteBtn.closest("div");
+    const klass = classeStorge.find((c) => c.name === elem.id);
+    const indexOfMember = klass.enrolledMembers.findIndex(
+      (m) => m.name === row.id,
+    );
+    const indexOfClass = classeStorge.findIndex((s) => s.name === klass.name);
+    klass.enrolledMembers.splice(indexOfMember, 1);
+    classeStorge[indexOfClass] = klass;
+    localStorage.setItem("classesData", JSON.stringify(classeStorge));
+    document.getElementById(klass.id).innerHTML = classString(klass);
+    row.remove();
+  }
 });
