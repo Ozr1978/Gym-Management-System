@@ -118,7 +118,7 @@ function classString(classObj) {
 function displayClasses() {
   for (let user of classeStorge) {
     let member = document.createElement("tr");
-    member.setAttribute("id", user.name);
+    member.setAttribute("id", user.id);
     member.innerHTML = classString(user);
 
     classesTableBody.appendChild(member);
@@ -154,7 +154,7 @@ function saveEditedClass(member) {
   localStorage.setItem("classesData", JSON.stringify(classeStorge));
 
   editClassContainer.setAttribute("hidden", true);
-  document.getElementById(member.name).innerHTML = classString(editedClass);
+  document.getElementById(member.id).innerHTML = classString(editedClass);
 }
 
 function addClass(name, coach, startTime, endTime, day, maxCapacity) {
@@ -246,7 +246,7 @@ classesTableBody.addEventListener("click", (e) => {
     const klass = classeStorge[index];
     addMemberToClass.removeAttribute("hidden");
     const span = document.createElement("span");
-    span.setAttribute("id", klass.id);
+    span.setAttribute("id", klass.id + " ");
     span.setAttribute("class", "target");
     addMemberToClass.appendChild(span);
     renderBookedMembers(klass.enrolledMembers);

@@ -61,10 +61,48 @@ function classString(classObj) {
           `;
 }
 
+function renderBookedMembers(bookedMembers) {
+  const container = document.getElementById("bookedMembersList");
+
+  if (bookedMembers.length === 0) {
+    container.textContent = "No members booked yet.";
+    return;
+  }
+
+  container.replaceChildren(
+    ...bookedMembers.map((m) => {
+      const div = document.createElement("div");
+      div.setAttribute("id", m.name);
+      div.innerHTML = `${m.name}
+
+      <button class="delete-btn-class" title="Delete" type="button"><svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg></button>`;
+
+      return div;
+    }),
+  );
+}
+
 function bookMemberToClass(klass, memberName) {
   let isBooked = false;
+  const member = users.find((user) => memberName === user.name);
+
   for (let enrolled of klass.enrolledMembers) {
     if (enrolled.name === memberName) isBooked = true;
+  }
+  for (let waiting of klass.waitingList) {
+    if (waiting.name === memberName) isBooked = true;
   }
 
   if (isBooked) {
@@ -73,12 +111,11 @@ function bookMemberToClass(klass, memberName) {
     return;
   }
   if (klass.enrolledMembers.length >= klass.maxCapacity) {
-    alert("Maximam Capacity Reached");
-    return;
+    klass.waitingList.push(member);
+    alert("This Class is Full, Member Added to Waiting List");
+  } else {
+    klass.enrolledMembers.push(member);
   }
-
-  const member = users.find((user) => memberName === user.name);
-  klass.enrolledMembers.push(member);
   const index = classeStorge.findIndex((c) => c.id === klass.id);
   classeStorge[index] = klass;
 
@@ -91,7 +128,7 @@ addMemberToClass.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const elem = event.target.querySelector(".target");
-  const klass = classeStorge.find((c) => c.id === elem.id);
+  const klass = classeStorge.find((c) => c.id === elem.id.trim());
   bookMemberToClass(klass, memberToAdd.value);
   addMemberToClass.setAttribute("hidden", true);
 });
@@ -102,12 +139,17 @@ addMemberToClass.addEventListener("click", (e) => {
 
   if (deleteBtn) {
     const row = deleteBtn.closest("div");
-    const klass = classeStorge.find((c) => c.name === elem.id);
+    const klass = classeStorge.find((c) => c.id === elem.id.trim());
     const indexOfMember = klass.enrolledMembers.findIndex(
       (m) => m.name === row.id,
     );
-    const indexOfClass = classeStorge.findIndex((s) => s.name === klass.name);
+    const indexOfClass = classeStorge.findIndex((s) => s.id === klass.id);
     klass.enrolledMembers.splice(indexOfMember, 1);
+    if (klass.waitingList.length > 0) {
+      const memberFromWaitingList = klass.waitingList.shift();
+      bookMemberToClass(klass, memberFromWaitingList.name);
+      renderBookedMembers(klass.enrolledMembers);
+    }
     classeStorge[indexOfClass] = klass;
     localStorage.setItem("classesData", JSON.stringify(classeStorge));
     document.getElementById(klass.id).innerHTML = classString(klass);
