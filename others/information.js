@@ -1,4 +1,6 @@
-const allSystemsUsers = [
+const membersData = JSON.parse(localStorage.getItem("membersData")) || [];
+
+/*const allSystemsUsers = [
   {
     username: "Omar Rami",
     password: "omar123",
@@ -46,8 +48,8 @@ const membersData = [
   {
     name: "fatima",
     membershipType: "premium",
-    membershipStartDate: "2023-01-01",
-    membershipEndDate: "2024-01-01",
+    membershipStartDate: "2026-01-01",
+    membershipEndDate: "2027-01-01",
     contactNumber: "01000000000",
     status: "active",
     coach: "Sara Hasan",
@@ -55,56 +57,56 @@ const membersData = [
   {
     name: "ahmed",
     membershipType: "basic",
-    membershipStartDate: "2023-02-01",
-    membershipEndDate: "2024-02-01",
+    membershipStartDate: "2026-02-01",
+    membershipEndDate: "2027-02-01",
     contactNumber: "01100000000",
     status: "active",
   },
   {
     name: "mohamed",
     membershipType: "premium",
-    membershipStartDate: "2023-03-01",
-    membershipEndDate: "2024-03-01",
+    membershipStartDate: "2026-03-01",
+    membershipEndDate: "2027-03-01",
     contactNumber: "01200000000",
     status: "active",
   },
   {
     name: "sara",
     membershipType: "basic",
-    membershipStartDate: "2023-04-01",
-    membershipEndDate: "2024-04-01",
+    membershipStartDate: "2026-04-01",
+    membershipEndDate: "2027-04-01",
     contactNumber: "01300000000",
     status: "active",
   },
   {
     name: "ali",
     membershipType: "premium",
-    membershipStartDate: "2023-05-01",
-    membershipEndDate: "2024-05-01",
+    membershipStartDate: "2026-05-01",
+    membershipEndDate: "2027-05-01",
     contactNumber: "01400000000",
     status: "active",
   },
   {
     name: "mona",
     membershipType: "basic",
-    membershipStartDate: "2023-06-01",
-    membershipEndDate: "2024-06-01",
+    membershipStartDate: "2026-06-01",
+    membershipEndDate: "2026-12-01",
     contactNumber: "01500000000",
     status: "active",
   },
   {
     name: "hassan",
     membershipType: "premium",
-    membershipStartDate: "2023-07-01",
-    membershipEndDate: "2024-07-01",
+    membershipStartDate: "2026-07-01",
+    membershipEndDate: "2027-07-01",
     contactNumber: "01600000000",
     status: "active",
   },
   {
     name: "zaid",
     membershipType: "basic",
-    membershipStartDate: "2024-07-01",
-    membershipEndDate: "2024-08-01",
+    membershipStartDate: "2026-10-01",
+    membershipEndDate: "2026-11-01",
     contactNumber: "01700000000",
     status: "active",
   },
@@ -131,8 +133,8 @@ const classesData = [
       {
         name: "hassan",
         membershipType: "premium",
-        membershipStartDate: "2023-07-01",
-        membershipEndDate: "2024-07-01",
+        membershipStartDate: "2026-07-01",
+        membershipEndDate: "2027-07-01",
         contactNumber: "01600000000",
         status: "active",
       },
@@ -152,8 +154,8 @@ const classesData = [
       {
         name: "mona",
         membershipType: "basic",
-        membershipStartDate: "2023-06-01",
-        membershipEndDate: "2024-06-01",
+        membershipStartDate: "2026-06-01",
+        membershipEndDate: "2026-12-01",
         contactNumber: "01500000000",
         status: "active",
       },
@@ -173,16 +175,16 @@ const classesData = [
       {
         name: "ali",
         membershipType: "premium",
-        membershipStartDate: "2023-05-01",
-        membershipEndDate: "2024-05-01",
+        membershipStartDate: "2026-05-01",
+        membershipEndDate: "2027-05-01",
         contactNumber: "01400000000",
         status: "active",
       },
       {
         name: "hassan",
         membershipType: "premium",
-        membershipStartDate: "2023-07-01",
-        membershipEndDate: "2024-07-01",
+        membershipStartDate: "2026-07-01",
+        membershipEndDate: "2027-07-01",
         contactNumber: "01600000000",
         status: "active",
       },
@@ -190,7 +192,25 @@ const classesData = [
     waitingList: [],
     id: `classId-3`,
   },
-];
+];*/
+
+function updateMembersSubscriptionStats(members) {
+  const today = new Date();
+  for (let i = 0; i < members.length; i++) {
+    const member = members[i];
+    const endDate = new Date(member.membershipEndDate);
+    const timeDiff = endDate - today;
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    if (daysDiff <= 7 && daysDiff > 0) {
+      member.status = "expiring soon";
+    } else if (daysDiff <= 0) {
+      member.status = "expired";
+    }
+    members[i] = member;
+  }
+  localStorage.setItem("membersData", JSON.stringify(members));
+}
+updateMembersSubscriptionStats(membersData);
 /*
 localStorage.setItem("allSystemsUsers", JSON.stringify(allSystemsUsers));
 localStorage.setItem("membersData", JSON.stringify(membersData));

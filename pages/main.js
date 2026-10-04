@@ -29,31 +29,50 @@ function updateDashboardStats() {
   bookingsNumberElement.textContent = bookingsCount;
 }
 
+function parseDays(days) {
+  return days.split("/").map((d) => d.trim().toLowerCase().slice(0, 3));
+}
+
+function toMinutes(time) {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
 function updateClassesDashboard() {
-  const currentDate = new Date();
+  const DAY_NAMES = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+  const now = new Date();
+  const today = DAY_NAMES[now.getDay()];
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
   const comingClasses = classes
-    .filter((classItem) => {
-      const classDate = classItem.startTime.split(":");
-      return Number(classDate[0]) >= Number(currentDate.getHours());
-    })
-    .sort()
+    .filter(
+      (c) =>
+        parseDays(c.day).includes(today) &&
+        toMinutes(c.startTime) >= nowMinutes,
+    )
+    .sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime))
     .slice(0, 3);
 
+  upComingClasses.innerHTML = "";
+
   if (comingClasses.length === 0) {
-    upComingClasses.innerHTML = `<tr><header>there is no classes at the moment</header></tr>`;
-  } else {
-    for (let i = 0; i < comingClasses.length; i++) {
-      const child = document.createElement("tr");
-      child.innerHTML = `
-            <td>${comingClasses[i].name}</td>
-            <td>${comingClasses[i].startTime}</td>
-            <td style="text-align: right;">
-              <span class="badge status-active">${comingClasses[i].enrolledMembers.length}/${comingClasses[i].maxCapacity}</span>
-            </td>`;
-      upComingClasses.appendChild(child);
-    }
+    upComingClasses.innerHTML = `
+      <tr><td colspan="3">There are no more classes today</td></tr>`;
+    return;
   }
+
+  comingClasses.forEach((c) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${c.name}</td>
+      <td>${c.startTime}</td>
+      <td style="text-align: right;">
+        <span class="badge status-active">${c.enrolledMembers.length}/${c.maxCapacity}</span>
+      </td>`;
+    upComingClasses.appendChild(row);
+  });
 }
 
 updateDashboardStats();
-//updateClassesDashboard();
+updateClassesDashboard();

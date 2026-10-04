@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="login-container" hidden>
+    <div id="login-container">
       <h1>Login</h1>
       <form id="loginForm">
         <label for="username">Username:</label>
@@ -20,7 +20,7 @@
       </form>
     </div>
 
-    <div class="corner-menu" id="corner-menu">
+    <div class="corner-menu" id="corner-menu" hidden>
       <button class="corner-menu-btn" id="menuToggle">
         <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -81,29 +81,7 @@
                 <th style="text-align: right">Spots</th>
               </tr>
             </thead>
-            <tbody id="upcoming-classes">
-              <tr>
-                <td>Boxing</td>
-                <td>18:00</td>
-                <td style="text-align: right">
-                  <span class="badge status-active">12/15</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Cardio</td>
-                <td>19:00</td>
-                <td style="text-align: right">
-                  <span class="badge status-pending">8/10</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Bodybuilding</td>
-                <td>20:00</td>
-                <td style="text-align: right">
-                  <span class="badge status-inactive">FULL</span>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="upcoming-classes"></tbody>
           </table>
         </div>
       </section>
@@ -111,16 +89,7 @@
       <!-- Recent Activity -->
       <section class="panel">
         <h2 class="panel-title">Recent Activity</h2>
-        <ul class="activity-list">
-          <li class="activity-item">
-            <span class="activity-dot"></span>
-            <span><strong>Ahmed</strong> booked Boxing</span>
-          </li>
-          <li class="activity-item">
-            <span class="activity-dot"></span>
-            <span><strong>Omar</strong> renewed subscription</span>
-          </li>
-        </ul>
+        <ul class="activity-list" id="recent-activity"></ul>
       </section>
     </div>
 
@@ -396,7 +365,7 @@
     </div>
 
     <!-- Classes & Bookings Page -->
-    <div class="dashboard-container" id="classesPage">
+    <div class="dashboard-container" id="classesPage" hidden>
       <header class="header">
         <div>
           <h1>Classes & Bookings</h1>

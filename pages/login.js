@@ -5,6 +5,7 @@ const loginContainer = document.getElementById("login-container");
 const mainDashboard = document.getElementById("main-dashboard");
 const cornerMenu = document.getElementById("corner-menu");
 const classesPage = document.getElementById("classesPage");
+const role = JSON.parse(sessionStorage.getItem("current_user")) || null;
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -33,3 +34,14 @@ loginForm.addEventListener("submit", (e) => {
     passwordInput.value = "";
   }
 });
+
+if (role) {
+  if (role !== "trainer") {
+    loginContainer.setAttribute("hidden", "true");
+    mainDashboard.removeAttribute("hidden");
+    cornerMenu.removeAttribute("hidden");
+  } else {
+    loginContainer.setAttribute("hidden", "true");
+    classesPage.removeAttribute("hidden");
+  }
+}

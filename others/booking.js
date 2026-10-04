@@ -1,3 +1,5 @@
+const recentActivity = document.getElementById("recent-activity");
+
 function classString(classObj) {
   return `
              <td class="user-name">${classObj.name}</td>
@@ -58,6 +60,12 @@ function classString(classObj) {
                     </svg>
                   </button>
                 </td>
+          `;
+}
+function activityString(memberName, className) {
+  return `
+            <span class="activity-dot"></span>
+            <span><strong>${memberName}</strong> booked ${className}</span>
           `;
 }
 
@@ -122,6 +130,14 @@ function bookMemberToClass(klass, memberName) {
   addMemberToClass.removeChild(document.querySelector(".target"));
   localStorage.setItem("classesData", JSON.stringify(classeStorge));
   document.getElementById(klass.id).innerHTML = classString(klass);
+
+  const activityItem = document.createElement("li");
+  activityItem.setAttribute("class", "activity-item");
+  activityItem.innerHTML = activityString(memberName, klass.name);
+  recentActivity.prepend(activityItem);
+  if (recentActivity.children.length > 2) {
+    recentActivity.removeChild(recentActivity.lastElementChild);
+  }
 }
 
 addMemberToClass.addEventListener("submit", (event) => {

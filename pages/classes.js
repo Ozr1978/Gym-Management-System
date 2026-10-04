@@ -125,6 +125,20 @@ function displayClasses() {
   }
 }
 
+function parseDays(days) {
+  return days.split("/").map((d) => d.trim().toLowerCase());
+}
+
+function findConflicts(newClass, existingClasses) {
+  const newDays = new Set(parseDays(newClass.day));
+  return existingClasses.filter(
+    (c) =>
+      parseDays(c.day).some((d) => newDays.has(d)) &&
+      newClass.startTime < c.endTime &&
+      c.startTime < newClass.endTime,
+  );
+}
+
 function saveEditedClass(member) {
   const days = [
     ...document.querySelectorAll('input[name="editedDays"]:checked'),
@@ -143,6 +157,11 @@ function saveEditedClass(member) {
     waitingList: member.waitingList,
     id: member.id,
   };
+  const conflicts = findConflicts(editedClass, classeStorge);
+  if (conflicts.length > 0) {
+    alert("Editing this class would create scheduling conflicts.");
+    return;
+  }
   let index;
   classeStorge.some((user) => {
     if (member.id === user.id) {
@@ -168,6 +187,28 @@ function addClass(name, coach, startTime, endTime, day, maxCapacity) {
     maxCapacity,
     day,
   );
+
+  if (Number(startTime.split(":")[0]) >= Number(endTime.split(":")[0])) {
+    alert("Start time must be earlier than end time by at least one hour.");
+    return;
+  }
+
+  const conflicts = findConflicts(user, classeStorge);
+  if (conflicts.length > 0) {
+    alert("Adding this class would create scheduling conflicts.");
+    return;
+  }
+
+  for (let existingClass of classeStorge) {
+    if (
+      existingClass.startTime === user.startTime &&
+      existingClass.day === user.day
+    ) {
+      alert("A class with the same start time and day already exists.");
+      return;
+    }
+  }
+
   classeStorge.push(user);
   localStorage.setItem("classesData", JSON.stringify(classeStorge));
 
