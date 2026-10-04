@@ -123,6 +123,7 @@ function displayClasses() {
 
     classesTableBody.appendChild(member);
   }
+  applyCoachPermissions();
 }
 
 function parseDays(days) {

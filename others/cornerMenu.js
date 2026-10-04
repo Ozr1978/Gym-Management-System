@@ -1,4 +1,3 @@
-const cornerMenu = document.getElementById("corner-menu");
 const menuToggle = document.getElementById("menuToggle");
 const menuItems = document.querySelectorAll(".menu-item");
 const menuDropdown = document.getElementById("menuDropdown");
@@ -40,6 +39,7 @@ menuItems.forEach((item) => {
       classesContainer.setAttribute("hidden", "true");
     } else if (target === "logout") {
       sessionStorage.removeItem("current_user");
+      sessionStorage.removeItem("current_user_name");
       location.reload();
     }
   });
